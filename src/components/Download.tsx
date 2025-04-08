@@ -54,8 +54,8 @@ export default function Download({ release, os }: DownloadProps) {
     ];
 
     return (
-        <section id="download" className="text-center mb-20">
-            <h3 className="text-2xl font-semibold mb-4">
+        <section id="download" className="mb-20 text-center">
+            <h3 className="mb-4 text-2xl font-semibold">
                 Ready to level up your mapping workflow?
             </h3>
 
@@ -82,7 +82,7 @@ export default function Download({ release, os }: DownloadProps) {
                             </span>
                         </Button>
                         <Card className='mt-4'>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                            <p className="text-sm text-gray-600 dark:text-gray-300">
                                 Download the .exe file and run it to install MapWizard
                             </p>
                         </Card>
@@ -93,17 +93,19 @@ export default function Download({ release, os }: DownloadProps) {
                 {activeTab === 'mac' && (
                     <div className="flex flex-col items-center gap-4">
                         <Button
-                            href={getReleaseAssetUrl('.dmg') || 'https://github.com/maotovisk/mapwizard/releases'}
+                            href={getReleaseAssetUrl('.dmg') || 'https://github.com/maotovisk/mapwizard/'}
                         >
                             <MacIcon />
                             <span>
-                                Download MapWizard {getLatestVersion()} for macOS
+                                Build from source
                             </span>
                         </Button>
                         <Card className='mt-4'>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">
-                                Download the .dmg file, open it, and drag the app to your Applications folder
+                            <p className="text-sm text-gray-600 dark:text-gray-300">
+                                For now we don't have a pre-built version for Mac.
                             </p>
+                            <p className="my-2 font-semibold">But, you can build by doing the following commands:</p>
+                            <CodeBlock code="git clone https://github.com/maotovisk/mapwizard && dotnet run --project MapWizard.Desktop" />
                         </Card>
                     </div>
                 )}
@@ -119,7 +121,7 @@ export default function Download({ release, os }: DownloadProps) {
                                 Download MapWizard {getLatestVersion()} for Linux
                             </span>
                         </Button>
-                        <div className="text-sm text-gray-600 dark:text-gray-400 flex flex-col gap-2">
+                        <div className="flex flex-col gap-2 text-sm text-gray-600 dark:text-gray-300">
                             <Card className='mt-4'>
                                 <p>Download the AppImage, make it executable, and run it</p>
                                 <CodeBlock className='mt-2' code="chmod +x ./MapWizard-*.AppImage && ./MapWizard-*.AppImage" />
@@ -130,7 +132,7 @@ export default function Download({ release, os }: DownloadProps) {
                     </div>
                 )}
 
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
                     <a
                         href="https://github.com/maotovisk/mapwizard/releases"
                         className="underline"
