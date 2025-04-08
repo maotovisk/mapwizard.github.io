@@ -8,20 +8,19 @@ export default function Features() {
                 <Card>
                     <h4 className="text-xl font-bold mb-2">Hitsound Copier</h4>
                     <p className="text-gray-700 dark:text-gray-300">
-                        Easily copy hitsounds between beatmaps to maintain consistent
-                        sound design.
+                        Copy hitsounds from one map to another with ease.
                     </p>
                 </Card>
                 <Card label="NEW" labelColor="new">
                     <h4 className="text-xl font-bold mb-2">Metadata Manager</h4>
                     <p className="text-gray-700 dark:text-gray-300">
-                        Quickly edit and standardize map metadata like title and artist.
+                        Quickly edit and standardize map metadata across multiple difficulties.
                     </p>
                 </Card>
                 <Card label="SOON">
                     <h4 className="text-xl font-bold mb-2">Combo Colour Studio</h4>
                     <p className="text-gray-700 dark:text-gray-300">
-                        Craft the perfect color combos for your maps.
+                        Craft the perfect combo colours for your maps.
                     </p>
                 </Card>
 

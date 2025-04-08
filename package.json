@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "generate:icons": "ts-node scripts/generate-favicons.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
     "build": "tsc && vite build",
@@ -31,6 +32,7 @@
     "@types/node": "^22.14.0",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",
+    "sharp": "^0.34.1",
     "tailwindcss": "^4.1.3",
     "terser": "^5.39.0",
     "typescript": "^5.8.3",
