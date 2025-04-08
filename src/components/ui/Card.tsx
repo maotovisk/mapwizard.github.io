@@ -1,7 +1,7 @@
-import { ReactNode } from 'preact/compat';
+import { ComponentChildren } from 'preact';
 
 type CardProps = {
-    children: ReactNode;
+    children: ComponentChildren;
     label?: string;
     labelColor?: string;
     className?: string;
