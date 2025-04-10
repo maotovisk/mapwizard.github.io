@@ -1,29 +1,31 @@
+import { useLanguage } from "../contexts/LanguageContext";
 import Card from './ui/Card';
 
 export default function Features() {
+    const { t } = useLanguage();
+
     return (
         <section id="features" className="mb-16">
-            <h3 className="text-2xl font-semibold mb-6 text-center">Features</h3>
-            <div className="grid md:grid-cols-3 gap-8">
+            <h3 className="mb-6 text-2xl font-semibold text-center">{t('features.title')}</h3>
+            <div className="grid gap-8 md:grid-cols-3">
                 <Card>
-                    <h4 className="text-xl font-bold mb-2">Hitsound Copier</h4>
+                    <h4 className="mb-2 text-xl font-bold">{t('features.hitsoundCopier.title')}</h4>
                     <p className="text-gray-700 dark:text-gray-300">
-                        Copy hitsounds from one map to another with ease.
+                        {t('features.hitsoundCopier.description')}
                     </p>
                 </Card>
-                <Card label="NEW" labelColor="new">
-                    <h4 className="text-xl font-bold mb-2">Metadata Manager</h4>
+                <Card label={t('label.new')} labelColor="new">
+                    <h4 className="mb-2 text-xl font-bold">{t('features.metadataManager.title')}</h4>
                     <p className="text-gray-700 dark:text-gray-300">
-                        Quickly edit and standardize map metadata across multiple difficulties.
+                        {t('features.metadataManager.description')}
                     </p>
                 </Card>
-                <Card label="SOON">
-                    <h4 className="text-xl font-bold mb-2">Combo Colour Studio</h4>
+                <Card label={t('label.soon')}>
+                    <h4 className="mb-2 text-xl font-bold">{t('features.comboColourStudio.title')}</h4>
                     <p className="text-gray-700 dark:text-gray-300">
-                        Craft the perfect combo colours for your maps.
+                        {t('features.comboColourStudio.description')}
                     </p>
                 </Card>
-
             </div>
         </section>
     );

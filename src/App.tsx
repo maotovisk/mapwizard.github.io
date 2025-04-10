@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import { ReleaseData } from './types';
 import Button from './components/ui/Button';
 import { DownloadIcon } from './components/ui/Icons';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 
 export default function App() {
     const [darkMode, setDarkMode] = useState(true);
@@ -45,20 +46,35 @@ export default function App() {
     const images = ['./img/screenshot1.png', './img/screenshot2.png', './img/screenshot3.png'];
 
     return (
-        <div className="bg-gradient-to-br from-white via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-800 dark:text-gray-100 font-sans min-h-screen">
-            <Header darkMode={darkMode} toggleDarkMode={handleDarkModeToggle} />
+        <LanguageProvider>
+            <AppContent
+                darkMode={darkMode}
+                toggleDarkMode={handleDarkModeToggle}
+                release={release}
+                os={os}
+                images={images}
+            />
+        </LanguageProvider>
+    );
+}
 
-            <main className="mt-10 px-4 max-w-6xl mx-auto">
-                <section className="text-center mb-16">
-                    <h2 className="text-4xl font-bold mb-4">Powerful tools for osu! mappers</h2>
-                    <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                        MapWizard provides utilities like Hitsound Copier, Combo Colour
-                        Studio, Metadata Manager, and more!
+function AppContent({ darkMode, toggleDarkMode, release, os, images }: any) {
+    const { t } = useLanguage();
+
+    return (
+        <div className="min-h-screen font-sans text-gray-800 bg-gradient-to-br from-white via-gray-100 to-gray-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 dark:text-gray-100">
+            <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+
+            <main className="max-w-6xl px-4 mx-auto mt-10">
+                <section className="mb-16 text-center">
+                    <h2 className="mb-4 text-4xl font-bold">{t('start.title')}</h2>
+                    <p className="mb-6 text-lg text-gray-600 dark:text-gray-300">
+                        {t('start.description')}
                     </p>
                     <div className="flex justify-center space-x-4">
                         <Button href="#download">
                             <DownloadIcon />
-                            <span>Getting started</span>
+                            <span>{t('start.gettingStarted')}</span>
                         </Button>
                     </div>
                 </section>

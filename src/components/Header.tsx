@@ -2,9 +2,22 @@ import { HeaderProps } from '../types';
 import Button from './ui/Button';
 import { GithubIcon, MoonIcon, SunIcon } from './ui/Icons';
 import { useState } from 'preact/hooks';
+import { useLanguage } from '../contexts/LanguageContext';
+import { Language, languageFlags } from '../translations';
 
 export default function Header({ darkMode, toggleDarkMode }: HeaderProps) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const { language, setLanguage, t } = useLanguage();
+    const [translationOpen, setTranslationOpen] = useState(false);
+
+    const toggleTranslationMenu = () => {
+        setTranslationOpen(!translationOpen);
+    };
+    const handleLanguageChange = (lang: string) => {
+        setLanguage(lang as Language);
+        localStorage.setItem('language', lang);
+        setTranslationOpen(false);
+    };
 
     return (
         <header className="sticky top-0 z-50 py-4 text-white border-b shadow-md backdrop-blur-md bg-white/60 dark:bg-gray-800/60 border-white/30 dark:border-gray-500/20">
@@ -22,45 +35,52 @@ export default function Header({ darkMode, toggleDarkMode }: HeaderProps) {
 
                 {/* Desktop Navigation */}
                 <nav className="items-center hidden space-x-4 md:flex">
-                    <a
-                        href="#features"
-                        className="text-gray-800 hover:underline dark:text-gray-100"
-                    >
-                        Features
+                    <a href="#features" className="text-gray-800 hover:underline dark:text-gray-100">
+                        {t('header.features')}
                     </a>
-                    <a
-                        href="#download"
-                        className="text-gray-800 hover:underline dark:text-gray-100"
-                    >
-                        Download
+                    <a href="#download" className="text-gray-800 hover:underline dark:text-gray-100">
+                        {t('header.download')}
                     </a>
-                    <a
-                        href="#about"
-                        className="text-gray-800 hover:underline dark:text-gray-100"
-                    >
-                        About
+                    <a href="#about" className="text-gray-800 hover:underline dark:text-gray-100">
+                        {t('header.about')}
                     </a>
-                    <Button
-                        href="https://github.com/maotovisk/mapwizard"
-                        className="ml-1"
-                    >
+                    <Button href="https://github.com/maotovisk/mapwizard" className="ml-1">
                         <GithubIcon />
-                        <span>GitHub</span>
+                        <span>{t('header.github')}</span>
                     </Button>
-                    <Button
-                        onClick={toggleDarkMode}
-                        className="ml-1 !px-3"
-                    >
+                    <Button onClick={toggleDarkMode} className="ml-1 !px-3">
                         {!darkMode ? <MoonIcon /> : <SunIcon />}
                     </Button>
+                    <div className="relative">
+                        <Button className="ml-1 !px-3" onClick={toggleTranslationMenu}>
+                            {languageFlags[language]}
+                        </Button>
+
+                        {translationOpen && (
+                            <div className="absolute right-0 z-10 mt-2 bg-white rounded shadow-lg dark:bg-gray-800">
+                                <ul className="py-2">
+                                    {Object.entries(languageFlags).map(([lang, flag]) => (
+                                        <li key={lang} className="flex items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                            <button
+                                                className="flex items-center space-x-2"
+                                                onClick={() => handleLanguageChange(lang)}
+                                            >
+                                                <span>{flag}</span>
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">
+                                                    {lang === 'en' ? 'English' : lang === 'pt-BR' ? 'Português' : lang}
+                                                </span>
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
                 </nav>
 
                 {/* Mobile Navigation Controls */}
                 <div className="flex items-center md:hidden">
-                    <Button
-                        onClick={toggleDarkMode}
-                        className="mr-2 !px-3"
-                    >
+                    <Button onClick={toggleDarkMode} className="mr-2 !px-3">
                         {!darkMode ? <MoonIcon /> : <SunIcon />}
                     </Button>
                     <button
@@ -100,21 +120,21 @@ export default function Header({ darkMode, toggleDarkMode }: HeaderProps) {
                         className="py-2 text-gray-800 hover:underline dark:text-gray-100"
                         onClick={() => setMobileMenuOpen(false)}
                     >
-                        Features
+                        {t('header.features')}
                     </a>
                     <a
                         href="#download"
                         className="py-2 text-gray-800 hover:underline dark:text-gray-100"
                         onClick={() => setMobileMenuOpen(false)}
                     >
-                        Download
+                        {t('header.download')}
                     </a>
                     <a
                         href="#about"
                         className="py-2 text-gray-800 hover:underline dark:text-gray-100"
                         onClick={() => setMobileMenuOpen(false)}
                     >
-                        About
+                        {t('header.about')}
                     </a>
                     <Button
                         href="https://github.com/maotovisk/mapwizard"
@@ -122,7 +142,7 @@ export default function Header({ darkMode, toggleDarkMode }: HeaderProps) {
                         onClick={() => setMobileMenuOpen(false)}
                     >
                         <GithubIcon />
-                        <span>GitHub</span>
+                        <span>{t('header.github')}</span>
                     </Button>
                 </nav>
             </div>

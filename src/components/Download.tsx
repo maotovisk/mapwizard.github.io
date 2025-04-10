@@ -5,8 +5,10 @@ import Card from './ui/Card';
 import CodeBlock from './ui/CodeBlock';
 import TabGroup from './ui/TabGroup';
 import { WindowsIcon, MacIcon, LinuxIcon } from './ui/Icons';
+import { useLanguage } from "../contexts/LanguageContext";
 
 export default function Download({ release, os }: DownloadProps) {
+    const { t } = useLanguage();
     const [activeTab, setActiveTab] = useState<'windows' | 'mac' | 'linux'>('windows');
 
     useEffect(() => {
@@ -56,7 +58,7 @@ export default function Download({ release, os }: DownloadProps) {
     return (
         <section id="download" className="mb-20 text-center">
             <h3 className="mb-4 text-2xl font-semibold">
-                Ready to level up your mapping workflow?
+                {t('download.title')}
             </h3>
 
             {/* Tab Navigation */}
@@ -78,12 +80,12 @@ export default function Download({ release, os }: DownloadProps) {
                         >
                             <WindowsIcon />
                             <span>
-                                Download MapWizard {getLatestVersion()} for Windows
+                                {t('download.windows.button').replace("{version}", getLatestVersion())}
                             </span>
                         </Button>
                         <Card className='mt-4'>
                             <p className="text-sm text-gray-600 dark:text-gray-300">
-                                Download the .exe file and run it to install MapWizard
+                                {t('download.windows.instructions')}
                             </p>
                         </Card>
                     </div>
@@ -97,14 +99,14 @@ export default function Download({ release, os }: DownloadProps) {
                         >
                             <MacIcon />
                             <span>
-                                Build from source
+                                {t('download.mac.button')}
                             </span>
                         </Button>
                         <Card className='mt-4'>
                             <p className="text-sm text-gray-600 dark:text-gray-300">
-                                For now we don't have a pre-built version for Mac.
+                                {t('download.mac.instructions')}
                             </p>
-                            <p className="my-2 font-semibold">But, you can build by doing the following commands:</p>
+                            <p className="my-2 font-semibold">{t('download.mac.buildSteps')}</p>
                             <CodeBlock code="git clone https://github.com/maotovisk/mapwizard && dotnet run --project MapWizard.Desktop" />
                         </Card>
                     </div>
@@ -118,14 +120,14 @@ export default function Download({ release, os }: DownloadProps) {
                         >
                             <LinuxIcon />
                             <span>
-                                Download MapWizard {getLatestVersion()} for Linux
+                                {t('download.linux.button').replace("{version}", getLatestVersion())}
                             </span>
                         </Button>
                         <div className="flex flex-col gap-2 text-sm text-gray-600 dark:text-gray-300">
                             <Card className='mt-4'>
-                                <p>Download the AppImage, make it executable, and run it</p>
+                                <p>{t('download.linux.instructions')}</p>
                                 <CodeBlock className='mt-2' code="chmod +x ./MapWizard-*.AppImage && ./MapWizard-*.AppImage" />
-                                <p className="my-2 font-semibold">Alternatively, Arch Linux users can download using AUR:</p>
+                                <p className="my-2 font-semibold">{t('download.linux.alternative')}</p>
                                 <CodeBlock code="yay -S mapwizard-bin" />
                             </Card>
                         </div>
@@ -137,7 +139,7 @@ export default function Download({ release, os }: DownloadProps) {
                         href="https://github.com/maotovisk/mapwizard/releases"
                         className="underline"
                     >
-                        See all releases on GitHub
+                        {t('download.seeAllReleases')}
                     </a>
                 </p>
             </div>
