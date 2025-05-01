@@ -95,11 +95,11 @@ export default function Download({ release, os }: DownloadProps) {
                 {activeTab === 'mac' && (
                     <div className="flex flex-col items-center gap-4">
                         <Button
-                            href={getReleaseAssetUrl('.dmg') || 'https://github.com/maotovisk/mapwizard/'}
+                            href={getReleaseAssetUrl('.pkg') || 'https://github.com/maotovisk/mapwizard/'}
                         >
                             <MacIcon />
                             <span>
-                                {t('download.mac.button')}
+                                {t('download.mac.button').replace("{version}", getLatestVersion())}
                             </span>
                         </Button>
                         <Card className='mt-4'>
