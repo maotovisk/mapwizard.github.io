@@ -6,7 +6,7 @@ export const en = {
     github: "GitHub",
   },
   footer: {
-    copyright: "© {year} MapWizard - Made with ♥ by",
+    copyright: "© {year} MapWizard - Made with ♥  by",
   },
   start: {
     title: "Powerful tools for osu! mappers",
@@ -43,9 +43,9 @@ export const en = {
       instructions: "Download the .exe file and run it to install MapWizard",
     },
     mac: {
-      button: "Build from source",
-      instructions: "For now we don't have a pre-built version for Mac.",
-      buildSteps: "But, you can build by doing the following commands:",
+      button: "Download MapWizard {version} for MacOS",
+      instructions:
+        "Download the .dmg file, mount it, and drag MapWizard to the Applications folder.",
     },
     linux: {
       button: "Download MapWizard {version} for Linux",

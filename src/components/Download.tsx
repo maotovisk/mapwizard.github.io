@@ -106,8 +106,6 @@ export default function Download({ release, os }: DownloadProps) {
                             <p className="text-sm text-gray-600 dark:text-gray-300">
                                 {t('download.mac.instructions')}
                             </p>
-                            <p className="my-2 font-semibold">{t('download.mac.buildSteps')}</p>
-                            <CodeBlock code="git clone https://github.com/maotovisk/mapwizard && dotnet run --project MapWizard.Desktop" />
                         </Card>
                     </div>
                 )}

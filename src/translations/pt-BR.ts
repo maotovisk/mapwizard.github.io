@@ -6,7 +6,7 @@ export const ptBR = {
     github: "GitHub",
   },
   footer: {
-    copyright: "© {year} MapWizard - Feito com ♥ por",
+    copyright: "© {year} MapWizard - Feito com ♥  por",
   },
   start: {
     title: "Ferramentas poderosas para mappers do osu!",
@@ -44,10 +44,9 @@ export const ptBR = {
         "Baixe o arquivo .exe e execute-o para instalar o MapWizard",
     },
     mac: {
-      button: "Compilar a partir do código-fonte",
+      button: "Baixar MapWizard {version} para MacOS",
       instructions:
-        "Por enquanto, não temos uma versão pré-compilada para Mac.",
-      buildSteps: "Mas você pode compilar executando os seguintes comandos:",
+        "Baixe o arquivo .dmg, monte-o e arraste o MapWizard para a pasta Aplicativos.",
     },
     linux: {
       button: "Baixar MapWizard {version} para Linux",
@@ -59,6 +58,6 @@ export const ptBR = {
   },
   label: {
     new: "NOVO",
-    soon: "EM BREVE",
+    soon: "JAJÁ",
   },
 };
