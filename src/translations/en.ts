@@ -44,8 +44,7 @@ export const en = {
     },
     mac: {
       button: "Download MapWizard {version} for MacOS",
-      instructions:
-        "Download the .dmg file, mount it, and drag MapWizard to the Applications folder.",
+      instructions: "Download the .pkg file and run it to install MapWizard",
     },
     linux: {
       button: "Download MapWizard {version} for Linux",

@@ -46,7 +46,7 @@ export const ptBR = {
     mac: {
       button: "Baixar MapWizard {version} para MacOS",
       instructions:
-        "Baixe o arquivo .dmg, monte-o e arraste o MapWizard para a pasta Aplicativos.",
+        "Baixe o arquivo .pkg e execute-o para instalar o MapWizard",
     },
     linux: {
       button: "Baixar MapWizard {version} para Linux",
