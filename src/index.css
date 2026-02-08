@@ -1,3 +1,288 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* Fonts imported in index.html */
+
+@theme {
+  /* Colors */
+  --color-border: hsl(240 10% 18%);
+  --color-input: hsl(240 10% 18%);
+  --color-ring: hsl(245 25% 40%);
+  --color-background: hsl(240 20% 4%);
+  --color-foreground: hsl(0 0% 98%);
+
+  --color-primary: hsl(245 25% 31%);
+  --color-primary-foreground: hsl(0 0% 98%);
+
+  --color-secondary: hsl(240 15% 12%);
+  --color-secondary-foreground: hsl(0 0% 98%);
+
+  --color-destructive: hsl(0 84.2% 60.2%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+
+  --color-muted: hsl(240 10% 15%);
+  --color-muted-foreground: hsl(240 5% 65%);
+
+  --color-accent: hsl(245 25% 31%);
+  --color-accent-foreground: hsl(0 0% 98%);
+
+  --color-popover: hsl(240 15% 8%);
+  --color-popover-foreground: hsl(0 0% 98%);
+
+  --color-card: hsl(240 15% 8%);
+  --color-card-foreground: hsl(0 0% 98%);
+
+  /* Sidebar */
+  --color-sidebar: hsl(240 15% 6%);
+  --color-sidebar-foreground: hsl(240 5% 90%);
+  --color-sidebar-primary: hsl(245 25% 31%);
+  --color-sidebar-primary-foreground: hsl(0 0% 100%);
+  --color-sidebar-accent: hsl(240 15% 12%);
+  --color-sidebar-accent-foreground: hsl(0 0% 98%);
+  --color-sidebar-border: hsl(240 10% 18%);
+  --color-sidebar-ring: hsl(245 25% 40%);
+
+  /* Wizard Brand Colors */
+  --color-wizard-dark: #0a0a0f;
+  --color-wizard-darker: #12121a;
+  --color-wizard-purple: #3c3a62;
+  --color-wizard-purple-light: #5f6690;
+  --color-wizard-purple-accent: #43436b;
+  --color-wizard-purple-muted: #50537c;
+  --color-wizard-purple-soft: #5b618a;
+
+  /* Border Radius */
+  --radius: 0.625rem;
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-xs: calc(var(--radius) - 6px);
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-glow: 0 0 40px rgba(60, 58, 98, 0.4);
+  --shadow-glow-lg: 0 0 80px rgba(60, 58, 98, 0.6);
+
+  /* Fonts */
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  /* Animations */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-caret-blink: caret-blink 1.25s ease-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-gradient-shift: gradient-shift 12s ease infinite;
+  --animate-pulse: pulse 2s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.5s infinite;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+
+    to {
+      height: 0;
+    }
+  }
+
+  @keyframes caret-blink {
+
+    0%,
+    70%,
+    100% {
+      opacity: 1;
+    }
+
+    20%,
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(-10px);
+    }
+
+    50% {
+      transform: translateY(10px);
+    }
+  }
+
+  @keyframes gradient-shift {
+
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes pulse {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+
+    100% {
+      background-position: 200% 0;
+    }
+  }
+}
+
+/* Base Utilities & Reset Overrides */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-wizard-dark text-foreground font-body antialiased;
+    background-color: var(--color-wizard-dark);
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
+  }
+}
+
+/* Custom Utilities */
+@utility text-gradient {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(135deg, #8b7bb5 0%, #5f6690 50%, #3c3a62 100%);
+}
+
+@utility bg-gradient-radial {
+  background: radial-gradient(ellipse at center, rgba(60, 58, 98, 0.15) 0%, transparent 70%);
+}
+
+@utility glass {
+  @apply backdrop-blur-xl bg-white/5 border border-white/10;
+}
+
+@utility glass-dark {
+  @apply backdrop-blur-xl bg-black/20 border border-white/5;
+}
+
+@utility glow-purple {
+  box-shadow: 0 0 40px rgba(60, 58, 98, 0.4);
+}
+
+@utility glow-purple-lg {
+  box-shadow: 0 0 80px rgba(60, 58, 98, 0.6);
+}
+
+@utility border-gradient {
+  border-image: linear-gradient(135deg, #3c3a62, #5f6690) 1;
+}
+
+/* App.css Imports/Ports */
+@utility hero-gradient {
+  background: radial-gradient(ellipse at 50% 50%, rgba(60, 58, 98, 0.15) 0%, transparent 70%);
+}
+
+@utility feature-card {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: translateY(-8px);
+  }
+}
+
+@utility glass-panel {
+  background: rgba(18, 18, 26, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  @media (max-width: 768px) {
+    backdrop-filter: blur(10px);
+  }
+}
+
+@utility magnetic-button {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@utility text-reveal {
+  overflow: hidden;
+
+  & span {
+    display: inline-block;
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@utility glow-text {
+  text-shadow: 0 0 40px rgba(60, 58, 98, 0.5);
+}
+
+@utility loading-shimmer {
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-wizard-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-wizard-purple);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-wizard-purple-light);
+}
+
+/* Selection */
+::selection {
+  background: rgba(60, 58, 98, 0.5);
+  color: white;
+}

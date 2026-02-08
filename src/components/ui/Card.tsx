@@ -1,22 +1,56 @@
-import { ComponentChildren } from 'preact';
+import { JSX } from 'preact';
+import { cn } from '@/lib/utils';
 
-type CardProps = {
-    children: ComponentChildren;
-    label?: string;
-    labelColor?: string;
-    className?: string;
-};
-
-export default function Card({ children, label, labelColor, className = "" }: CardProps) {
+export function Card({ className, ...props }: JSX.HTMLAttributes<HTMLDivElement>) {
     return (
-        <div className={`relative bg-white/70 dark:bg-gray-800/70 p-6 rounded-2xl shadow backdrop-blur-md border border-white/30 dark:border-gray-500/20 ${className}`}>
-            {label && (
-                <span className={`absolute top-2 right-2 ${labelColor === "new" ? "bg-blue-500" : "bg-gray-600 opacity-90"} text-white text-xs px-2 py-0.5 rounded-full font-medium`}>
-                    {label}
-                </span>
-            )
-            }
-            {children}
-        </div >
+        <div
+            className={cn(
+                "rounded-xl border bg-card text-card-foreground shadow-sm",
+                className
+            )}
+            {...props}
+        />
+    );
+}
+
+export function CardHeader({ className, ...props }: JSX.HTMLAttributes<HTMLDivElement>) {
+    return (
+        <div
+            className={cn("flex flex-col space-y-1.5 p-6", className)}
+            {...props}
+        />
+    );
+}
+
+export function CardTitle({ className, ...props }: JSX.HTMLAttributes<HTMLHeadingElement>) {
+    return (
+        <h3
+            className={cn("text-2xl font-semibold leading-none tracking-tight", className)}
+            {...props}
+        />
+    );
+}
+
+export function CardDescription({ className, ...props }: JSX.HTMLAttributes<HTMLParagraphElement>) {
+    return (
+        <p
+            className={cn("text-sm text-muted-foreground", className)}
+            {...props}
+        />
+    );
+}
+
+export function CardContent({ className, ...props }: JSX.HTMLAttributes<HTMLDivElement>) {
+    return (
+        <div className={cn("p-6 pt-0", className)} {...props} />
+    );
+}
+
+export function CardFooter({ className, ...props }: JSX.HTMLAttributes<HTMLDivElement>) {
+    return (
+        <div
+            className={cn("flex items-center p-6 pt-0", className)}
+            {...props}
+        />
     );
 }

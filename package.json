@@ -25,7 +25,11 @@
   "homepage": "https://github.com/maotovisk/mapwizard.github.io#readme",
   "dependencies": {
     "@tailwindcss/vite": "^4.1.3",
-    "preact": "^10.26.5"
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-preact": "^0.563.0",
+    "preact": "^10.26.5",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.1",

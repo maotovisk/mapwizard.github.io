@@ -1,44 +1,54 @@
-import { ComponentChildren } from "preact";
+import { JSX } from 'preact';
+// import { cva, type VariantProps } from 'class-variance-authority'; // Removed unused
+import { cn } from '@/lib/utils';
+import { Loader2 } from 'lucide-preact';
 
-type ButtonVariant = 'primary' | 'secondary' | 'tab';
+import { ComponentChildren } from 'preact';
 
-interface ButtonProps {
-    onClick?: () => void;
-    className?: string;
-    children: ComponentChildren;
-    href?: string;
-    variant?: ButtonVariant;
-    active?: boolean;
+interface ButtonProps extends JSX.HTMLAttributes<HTMLButtonElement> {
+    variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | 'glow';
+    size?: 'default' | 'sm' | 'lg' | 'icon';
+    isLoading?: boolean;
+    disabled?: boolean;
+    children?: ComponentChildren;
 }
 
-export default function Button({
-    onClick,
-    className = "",
+export function Button({
+    className,
+    variant = 'default',
+    size = 'default',
+    isLoading,
     children,
-    href,
-    variant = "primary",
-    active = false,
+    disabled,
+    ...props
 }: ButtonProps) {
-    const baseClasses = "flex items-center gap-2 transition";
 
-    const variantClasses = {
-        primary: "bg-gray-300/40 dark:bg-gray-600/40 border border-gray-400/40 dark:border-gray-500/40 text-gray-900 dark:text-white px-6 py-3 rounded-full shadow hover:bg-gray-300/60 dark:hover:bg-gray-600/60 backdrop-blur",
-        secondary: "bg-transparent text-gray-600 dark:text-gray-400 hover:bg-gray-200/20 dark:hover:bg-gray-700/20 px-4 py-2",
-        tab: `px-4 py-2 ${active ? 'bg-gray-300/40 dark:bg-gray-600/40 text-gray-900 dark:text-white' : 'bg-transparent text-gray-600 dark:text-gray-400 hover:bg-gray-200/20 dark:hover:bg-gray-700/20'}`
+    const baseStyles = "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer";
+
+    const variants = {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+        glow: "bg-wizard-purple text-white shadow-glow hover:shadow-glow-lg hover:bg-wizard-purple-light transition-all duration-300 magnetic-button",
     };
 
-    const classes = `${baseClasses} ${variantClasses[variant]} ${className}`;
-
-    if (href) {
-        return (
-            <a href={href} className={classes}>
-                {children}
-            </a>
-        );
-    }
+    const sizes = {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+    };
 
     return (
-        <button onClick={onClick} className={classes}>
+        <button
+            className={cn(baseStyles, variants[variant], sizes[size], className)}
+            disabled={isLoading || disabled}
+            {...props}
+        >
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {children}
         </button>
     );
