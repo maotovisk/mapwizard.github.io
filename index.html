@@ -1,24 +1,25 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
+<!doctype html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
 
-    <!-- Primary Meta Tags -->
-    <title>MapWizard - Powerful tools for osu! mappers</title>
-    <meta name="title" content="MapWizard - Powerful tools for osu! mappers" />
+    <title>MapWizard — focused tools for osu! mappers</title>
+    <meta name="title" content="MapWizard — focused tools for osu! mappers" />
     <meta
       name="description"
-      content="Free cross-platform tools for osu! mapping including Hitsound Copier, Metadata Manager, Combo Colour Studio and more!"
+      content="Copy hitsounds, sync metadata, build combo colours, inspect hitsounds, and clean osu! maps on Windows, macOS, and Linux."
     />
     <meta
       name="keywords"
-      content="osu, mapper, mapping tools, hitsound copier, metadata manager, combo colour studio, mapwizard"
+      content="osu, mapper, mapping tools, hitsound copier, hitsound visualizer, metadata manager, combo colour studio, map cleaner, mapwizard"
     />
     <meta name="author" content="maot" />
     <meta name="robots" content="index, follow" />
@@ -26,72 +27,37 @@
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mapwizard.maot.dev/" />
-    <meta
-      property="og:title"
-      content="MapWizard - Powerful tools for osu! mappers"
-    />
+    <meta property="og:title" content="MapWizard — focused tools for osu! mappers" />
     <meta
       property="og:description"
-      content="Free cross-platform tools for osu! mapping including Hitsound Copier, Metadata Manager, Combo Colour Studio and more!"
+      content="Move finished mapping work across every difficulty, with a backup before every changed file."
     />
-    <meta
-      property="og:image"
-      content="https://mapwizard.maot.dev/img/social-preview.png"
-    />
+    <meta property="og:image" content="https://mapwizard.maot.dev/img/screenshots/start.png" />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="748" />
+    <meta property="og:image:alt" content="The MapWizard desktop application start screen" />
 
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://mapwizard.maot.dev/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MapWizard — focused tools for osu! mappers" />
     <meta
-      property="twitter:title"
-      content="MapWizard - Powerful tools for osu! mappers"
+      name="twitter:description"
+      content="Move finished mapping work across every difficulty, with a backup before every changed file."
     />
-    <meta
-      property="twitter:description"
-      content="Free cross-platform tools for osu! mapping including Hitsound Copier, Metadata Manager, Combo Colour Studio and more!"
-    />
-    <meta
-      property="twitter:image"
-      content="https://mapwizard.maot.dev/img/social-preview.png"
-    />
+    <meta name="twitter:image" content="https://mapwizard.maot.dev/img/screenshots/start.png" />
 
-    <!-- Favicons -->
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/img/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/img/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/img/favicon-16x16.png"
-    />
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#181a24" />
 
-    <!-- Theme Color -->
-    <meta
-      name="theme-color"
-      content="#0e7490"
-      media="(prefers-color-scheme: light)"
-    />
-    <meta
-      name="theme-color"
-      content="#22d3ee"
-      media="(prefers-color-scheme: dark)"
-    />
-
-    <!-- Structured Data / JSON-LD -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "MapWizard",
+        "url": "https://mapwizard.maot.dev/",
+        "downloadUrl": "https://github.com/maotovisk/MapWizard/releases",
         "applicationCategory": "UtilityApplication",
         "operatingSystem": "Windows, macOS, Linux",
         "offers": {
@@ -99,7 +65,7 @@
           "price": "0",
           "priceCurrency": "USD"
         },
-        "description": "MapWizard provides utilities like Hitsound Copier, Combo Colour Studio, Metadata Manager for osu! mappers."
+        "description": "Focused desktop tools for copying hitsounds, managing metadata, building combo colours, inspecting hitsounds, and cleaning osu! maps."
       }
     </script>
   </head>

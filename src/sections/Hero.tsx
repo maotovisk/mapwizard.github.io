@@ -1,132 +1,147 @@
-import { useEffect, useState } from 'preact/hooks';
-import { Button } from '@/components/ui/Button';
-import { ArrowDown, Download, Sparkles } from 'lucide-preact';
-import { cn } from '@/lib/utils';
+import { useEffect, useRef, useState } from 'preact/hooks';
+import { Download, ArrowDown } from 'lucide-preact';
+import { fetchRelease, detectOS } from '@/lib/release';
 import { scrollToHash } from '@/lib/scroll';
 
 export default function Hero() {
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [os, setOs] = useState<'Windows' | 'macOS' | 'Linux'>('Windows');
+    const [version, setVersion] = useState<string | null>(null);
+    const stageRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        setIsLoaded(true);
+        setOs(detectOS());
+        fetchRelease().then((r) => setVersion(r.error ? null : r.version));
     }, []);
 
-    const scrollToFeatures = () => {
-        scrollToHash('#features', { offset: 80, updateHash: true });
-    };
+    /* pointer parallax on the mock stage — lerped toward the pointer so it
+       glides instead of snapping. fine pointers + motion allowed only. */
+    useEffect(() => {
+        const stage = stageRef.current;
+        if (!stage) return;
+        const fine = window.matchMedia('(pointer: fine)').matches;
+        const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!fine || still) return;
 
-    const scrollToDownload = () => {
-        scrollToHash('#download', { offset: 80, updateHash: true });
-    };
+        let tx = 0;
+        let ty = 0;
+        let cx = 0;
+        let cy = 0;
+        let raf = 0;
+        const loop = () => {
+            cx += (tx - cx) * 0.08;
+            cy += (ty - cy) * 0.08;
+            if (Math.abs(tx - cx) < 0.0005 && Math.abs(ty - cy) < 0.0005) {
+                cx = tx;
+                cy = ty;
+                raf = 0;
+            } else {
+                raf = requestAnimationFrame(loop);
+            }
+            stage.style.setProperty('--px', cx.toFixed(4));
+            stage.style.setProperty('--py', cy.toFixed(4));
+        };
+        const kick = () => {
+            if (!raf) raf = requestAnimationFrame(loop);
+        };
+        const onMove = (e: PointerEvent) => {
+            const rect = stage.getBoundingClientRect();
+            tx = ((e.clientX - rect.left) / rect.width - 0.5) * -2;
+            ty = ((e.clientY - rect.top) / rect.height - 0.5) * -2;
+            kick();
+        };
+        const onLeave = () => {
+            tx = 0;
+            ty = 0;
+            kick();
+        };
+        stage.addEventListener('pointermove', onMove);
+        stage.addEventListener('pointerleave', onLeave);
+        return () => {
+            cancelAnimationFrame(raf);
+            stage.removeEventListener('pointermove', onMove);
+            stage.removeEventListener('pointerleave', onLeave);
+        };
+    }, []);
 
     return (
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 perspective-1000">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-                    {/* Text Content */}
-                    <div className="text-center lg:text-left z-10">
-                        {/* Badge */}
-                        <div
-                            className={cn(
-                                "inline-flex items-center gap-2 mb-6 transition-all duration-700 transform",
-                                isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                            )}
-                        >
-                            <span className="px-3 py-1 rounded-full bg-wizard-purple/20 border border-wizard-purple/40 text-wizard-purple-light text-sm font-medium flex items-center gap-2">
-                                <Sparkles className="w-4 h-4" />
-                                Now available for Windows, macOS & Linux
-                            </span>
-                        </div>
+        <section class="hero" id="top">
+            <div class="hero__grid">
+                <div>
+                    <span class="hero__chip reveal" style="--i: 0">
+                        <span class="dot" aria-hidden="true" />
+                        {version ? `${version} · ` : ''}free &amp; open source
+                    </span>
 
-                        {/* Heading */}
-                        <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl text-white leading-tight mb-6 overflow-hidden">
-                            <span
-                                className={cn(
-                                    "block transition-all duration-1000 delay-100 transform",
-                                    isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full"
-                                )}
-                            >
-                                Powerful tools for
-                            </span>
-                            <span
-                                className={cn(
-                                    "block text-gradient transition-all duration-1000 delay-200 transform",
-                                    isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full"
-                                )}
-                            >
-                                osu! mappers
-                            </span>
-                        </h1>
+                    <h1 class="hero__title reveal" style="--i: 1">
+                        The tedious half of mapping, handled.
+                    </h1>
 
-                        {/* Subheading */}
-                        <p
-                            className={cn(
-                                "text-lg sm:text-xl text-white/70 mb-8 max-w-xl mx-auto lg:mx-0 transition-all duration-1000 delay-300 transform",
-                                isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"
-                            )}
-                        >
-                            MapWizard provides utilities like Hitsound Copier, Combo Colour Studio,
-                            Metadata Manager, and more to streamline your osu! mapping workflow.
-                        </p>
+                    <p class="hero__lede reveal" style="--i: 2">
+                        MapWizard is a free, open-source desktop app for osu! mappers. Copy
+                        hitsounds across difficulties, fix metadata for the whole set,
+                        try out combo colours, resnap objects. No hand-editing every
+                        .osu file.
+                    </p>
 
-                        {/* Buttons */}
-                        <div
-                            className={cn(
-                                "flex flex-col sm:flex-row gap-4 justify-center lg:justify-start transition-all duration-1000 delay-500 transform",
-                                isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-90"
-                            )}
+                    <div class="hero__actions reveal" style="--i: 3">
+                        <a
+                            class="btn btn--primary"
+                            href="#download"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                scrollToHash('#download', { offset: 76, updateHash: true });
+                            }}
                         >
-                            <Button
-                                size="lg"
-                                className="bg-wizard-purple hover:bg-wizard-purple-accent text-white px-8 py-6 text-lg font-medium transition-all duration-300 hover:shadow-glow group magnetic-button"
-                                onClick={scrollToDownload}
-                            >
-                                <Download className="w-5 h-5 mr-2 transition-transform duration-300 ease-out group-hover:translate-y-[-2px] group-hover:scale-110" />
-                                Download Now
-                            </Button>
-                            <Button
-                                size="lg"
-                                variant="outline"
-                                className="border-white/20 text-white hover:bg-white/10 hover:border-white/40 px-8 py-6 text-lg font-medium transition-all duration-300"
-                                onClick={scrollToFeatures}
-                            >
-                                Explore Features
-                                <ArrowDown className="w-5 h-5 ml-2" />
-                            </Button>
-                        </div>
+                            <Download size={16} strokeWidth={2} aria-hidden="true" />
+                            Download for {os}
+                        </a>
+                        <a
+                            class="link-cta"
+                            href="#screenshots"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                scrollToHash('#screenshots', { offset: 76, updateHash: true });
+                            }}
+                        >
+                            See the screenshots
+                            <ArrowDown size={15} strokeWidth={2} aria-hidden="true" />
+                        </a>
                     </div>
 
-                    {/* App Image */}
-                    <div
-                        className={cn(
-                            "relative lg:pl-8 transition-all duration-1000 delay-300 perspective-1000",
-                            isLoaded ? "opacity-100 translate-x-0 rotate-y-0" : "opacity-0 translate-x-20 rotate-y-12"
-                        )}
-                    >
-                        <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 group animate-float">
-                            {/* Glow effect */}
-                            <div className="absolute -inset-1 bg-gradient-to-r from-wizard-purple to-wizard-purple-light rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+                    <p class="hero__facts reveal" style="--i: 4">
+                        <span><b>5</b> tools</span>
+                        <span><b>3</b> platforms</span>
+                        <span><b>.NET 10</b> + Avalonia</span>
+                        <span><b>MIT</b> license</span>
+                    </p>
+                </div>
 
-                            {/* Image */}
-                            <img
-                                src="/img/screenshot1.png"
-                                alt="MapWizard Application"
-                                className="relative w-full rounded-2xl"
-                            />
-
-                            {/* Overlay gradient */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-wizard-dark/60 via-transparent to-transparent" />
-                        </div>
-
-                        {/* Floating elements */}
-                        <div className="absolute -top-4 -right-4 w-20 h-20 bg-wizard-purple/20 rounded-full blur-xl animate-pulse" />
-                        <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-wizard-purple-light/20 rounded-full blur-2xl animate-pulse delay-500" />
-                    </div>
+                <div class="hero__stage reveal" style="--i: 2" ref={stageRef}>
+                    <figure class="frame hero__mock--back" aria-hidden="true">
+                        <img
+                            src="/img/screenshots/hscopier.png"
+                            width={1280}
+                            height={748}
+                            alt=""
+                            loading="lazy"
+                        />
+                        <figcaption />
+                    </figure>
+                    <figure class="frame hero__mock">
+                        <img
+                            src="/img/screenshots/start.png"
+                            width={1280}
+                            height={748}
+                            alt="The MapWizard start screen: three tool cards — Hitsound Copier, Metadata Manager and Combo Colour Studio — beside the tool rail."
+                            fetchpriority="high"
+                        />
+                        <figcaption>
+                            <span>mapwizard — start</span>
+                            <span>win · mac · linux</span>
+                        </figcaption>
+                    </figure>
                 </div>
             </div>
-
-            {/* Bottom gradient fade */}
-            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-wizard-dark to-transparent" />
         </section>
     );
 }
