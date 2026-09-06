@@ -6,10 +6,10 @@ type Shot = { src: string; alt: string; caption: string };
 const SHOTS: Shot[] = [
     { src: '/img/screenshots/hscopier.png', alt: 'Hitsound Copier with an origin beatmap selected, destination difficulties and a list of copy options with toggles.', caption: 'hitsound copier — origin → destination' },
     { src: '/img/screenshots/mappicker.png', alt: 'The Map Picker modal: a search field with beatmap rows showing cover art, mapper names and difficulty counts.', caption: 'map picker — shared library browser' },
-    { src: '/img/screenshots/metadata.png', alt: 'Metadata Manager showing editable title and artist fields next to general settings like preview time and audio file.', caption: 'metadata manager — edit once, sync everywhere' },
+    { src: '/img/screenshots/metadata.png', alt: 'Metadata Manager showing editable title and artist fields next to general settings like preview time and audio file.', caption: 'metadata manager · beatmap set metadata' },
     { src: '/img/screenshots/visualizer.png', alt: 'Hitsound Visualizer timeline showing sample changes across hitnormal, hitwhistle, hitfinish and hitclap layers with playback controls.', caption: 'hitsound visualizer — every layer, on the timeline' },
     { src: '/img/screenshots/colours.png', alt: 'Combo Colour Studio listing six combo colours with hex pickers, saved project state and apply/export actions.', caption: 'combo colour studio — project saved' },
-    { src: '/img/screenshots/cleaner.png', alt: 'Map Cleaner with beat snap presets 1/8 and 1/2 and action toggles for resnapping, mute removal and unused greenlines.', caption: 'map cleaner — resnap, strip, done' },
+    { src: '/img/screenshots/cleaner.png', alt: 'Map Cleaner with beat snap presets 1/8 and 1/2 and action toggles for resnapping, mute removal and unused greenlines.', caption: 'map cleaner · timing and greenline options' },
 ];
 
 function Frame({
@@ -122,11 +122,8 @@ export default function Features() {
     return (
         <section class="tour" id="screenshots">
             <div class="tour__head reveal">
-                <h2>Screenshots.</h2>
-                <p>
-                    The app as it ships: five tools, plus the picker they all
-                    open with.
-                </p>
+                <div><span class="section-label">Application interface</span><h2>Tools and screenshots</h2></div>
+                <p>Five beatmap tools with a shared map picker.</p>
             </div>
 
             {/* 01 · Hitsound Copier */}
@@ -135,10 +132,9 @@ export default function Features() {
                     <span class="tool__index">01</span>
                     <h3>Hitsound Copier</h3>
                     <p>
-                        Take the hitsounds from a finished difficulty and paste them
-                        onto the rest of the set. Samples, volumes and slider ticks
-                        come along. You set how strict the timing match is, in
-                        milliseconds.
+                        Copy samples, volumes and slider ticks from an origin
+                        difficulty to destination difficulties with a configurable
+                        timing tolerance.
                     </p>
                 </div>
                 <div class="tool__shot reveal reveal--right">
@@ -152,9 +148,8 @@ export default function Features() {
                     <span class="tool__eyebrow">Shared · in every tool</span>
                     <h3>Map picker</h3>
                     <p>
-                        Not a tool, the starting point. Browse your Songs folder
-                        with covers and difficulty counts, search by name, or open a
-                        folder by hand when your library lives somewhere odd.
+                        Browse the Songs folder, search beatmap sets and select
+                        difficulties. Open a local folder manually when needed.
                     </p>
                 </div>
                 <div class="tool__shot reveal reveal--left">
@@ -168,10 +163,8 @@ export default function Features() {
                     <span class="tool__index">02</span>
                     <h3>Metadata Manager</h3>
                     <p>
-                        Edit the title, artist and creator once, apply to every
-                        difficulty in the set. Preview time, audio file, background
-                        and video carry over too, so there is nothing left for the
-                        nomination to bounce on.
+                        Edit title, artist, creator, preview time and media settings
+                        across selected difficulties.
                     </p>
                 </div>
                 <div class="tool__shot reveal reveal--right">
@@ -185,9 +178,8 @@ export default function Features() {
                     <span class="tool__index">03</span>
                     <h3>Hitsound Visualizer</h3>
                     <p>
-                        A timeline for your hitsound layers. One row per sample:
-                        normal, whistle, finish, clap. Switch banks, play it back
-                        against the song, export what you hear.
+                        Inspect normal, whistle, finish and clap layers on a timeline
+                        with sample bank selection and audio playback.
                     </p>
                 </div>
                 <div class="tool__shot reveal reveal--left">
@@ -201,9 +193,8 @@ export default function Features() {
                     <span class="tool__index">04</span>
                     <h3>Combo Colour Studio</h3>
                     <p>
-                        Combo colours saved as project files you can reuse. Pick the
-                        palette, order the combos, apply it to any difficulty. Come
-                        back and tweak it later.
+                        Configure and reorder combo colours, apply palettes to
+                        difficulties and save reusable project files.
                     </p>
                     <div class="swatches" aria-hidden="true">
                         <span style="background: var(--combo-1)" />
@@ -225,9 +216,8 @@ export default function Features() {
                     <span class="tool__index">05</span>
                     <h3>Map Cleaner</h3>
                     <p>
-                        Resnap objects and timing points to the divisors you pick,
-                        strip muting sections, delete greenlines nothing uses.
-                        Placements stay where you put them.
+                        Resnap hit objects and timing points to selected divisors,
+                        remove muting sections and delete unused greenlines.
                     </p>
                 </div>
                 <div class="tool__shot reveal reveal--left">

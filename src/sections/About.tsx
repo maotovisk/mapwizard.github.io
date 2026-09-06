@@ -8,13 +8,12 @@ export default function About() {
         <section class="band" id="about">
             <div class="band__inner">
                 <div class="reveal">
-                    <h2>I map, so I built the tool I wanted.</h2>
+                    <h2>About the project</h2>
                     <p>
-                        Decent mapping tools didn't exist on Linux, so MapWizard
-                        started there. Now it runs everywhere, reads your beatmaps
-                        directly, and does one job per tool.
+                        MapWizard is an open-source desktop application built with
+                        .NET 10 and Avalonia. It reads and modifies local beatmap
+                        files on Windows, macOS and Linux.
                     </p>
-                    <p class="band__note">// more tools on the way</p>
                 </div>
 
                 <dl class="band__facts reveal" style="--i: 1">

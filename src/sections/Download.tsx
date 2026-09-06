@@ -1,174 +1,48 @@
 import { useEffect, useState } from 'preact/hooks';
-import { Monitor, Apple, Laptop, Download as DownloadIcon, Copy, Check } from 'lucide-preact';
+import { Monitor, Apple, Laptop, Download, ArrowUpRight, BookOpen } from 'lucide-preact';
 import { fetchRelease, detectOS } from '@/lib/release';
+import CodeBlock from '@/components/ui/CodeBlock';
 
-const AUR_COMMAND = 'yay -S mapwizard-git';
 const FALLBACK = 'https://github.com/maotovisk/MapWizard/releases/latest';
+const PLATFORMS = [
+    { name: 'Windows', key: 'windows', icon: Monitor, format: '.exe installer', note: 'Run the installer to get started.' },
+    { name: 'macOS', key: 'mac', icon: Apple, format: '.pkg installer', note: 'Open the package and follow the installer.' },
+    { name: 'Linux', key: 'linux', icon: Laptop, format: 'AppImage', note: 'Make the AppImage executable, then launch it.' },
+] as const;
 
 export default function DownloadSection() {
-    const [os, setOs] = useState<'Windows' | 'macOS' | 'Linux'>('Windows');
+    const [selected, setSelected] = useState<string>(detectOS);
     const [release, setRelease] = useState<Awaited<ReturnType<typeof fetchRelease>> | null>(null);
-    const [copied, setCopied] = useState(false);
-
-    useEffect(() => {
-        setOs(detectOS());
-        fetchRelease().then(setRelease);
-    }, []);
-
-    useEffect(() => {
-        if (!copied) return;
-        const t = window.setTimeout(() => setCopied(false), 1600);
-        return () => window.clearTimeout(t);
-    }, [copied]);
-
-    const copyAur = async () => {
-        try {
-            await navigator.clipboard.writeText(AUR_COMMAND);
-        } catch {
-            const ta = document.createElement('textarea');
-            ta.value = AUR_COMMAND;
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand('copy');
-            ta.remove();
-        }
-        setCopied(true);
-    };
-
-    const platforms = [
-        { name: 'Windows' as const, icon: Monitor, desc: 'Windows 10 or later — installer', url: release?.assets.windows },
-        { name: 'macOS' as const, icon: Apple, desc: 'macOS 11 or later — .pkg installer', url: release?.assets.mac },
-    ];
-
+    useEffect(() => { fetchRelease().then(setRelease); }, []);
+    const platform = PLATFORMS.find((p) => p.name === selected)!;
     return (
-        <section class="dl" id="download">
-            <div class="dl__inner">
-                <div class="dl__primary reveal">
-                    <h2>
-                        Grab the latest release
-                        {release && !release.error && (
-                            <>
-                                {' '}
-                                <span class="dl__version">{release.version}</span>
-                            </>
-                        )}
-                    </h2>
-                    <p>
-                        Free, no account. Updates come through the built-in updater,
-                        or grab them here.
-                    </p>
-
-                    <div>
-                        {platforms.map((p) => (
-                            <a
-                                key={p.name}
-                                class={`dl__os ${p.name === os ? 'dl__os--current' : ''}`}
-                                href={p.url ?? FALLBACK}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <p.icon size={18} strokeWidth={1.75} aria-hidden="true" />
-                                <span>
-                                    <span class="dl__os-name">Download for {p.name}</span>
-                                    <br />
-                                    <span class="dl__os-desc">{p.desc}</span>
-                                </span>
-                                <DownloadIcon size={16} strokeWidth={1.75} class="dl__os-icon" aria-hidden="true" />
-                            </a>
-                        ))}
-
-                        <div class={`dl__os--group ${os === 'Linux' ? 'dl__os--current' : ''}`}>
-                            <a
-                                class="dl__os-main"
-                                href={release?.assets.linux ?? FALLBACK}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <Laptop size={18} strokeWidth={1.75} aria-hidden="true" />
-                                <span>
-                                    <span class="dl__os-name">Download for Linux</span>
-                                    <br />
-                                    <span class="dl__os-desc">AppImage — chmod +x before running</span>
-                                </span>
-                                <DownloadIcon size={16} strokeWidth={1.75} class="dl__os-icon" aria-hidden="true" />
-                            </a>
-                            <div class="dl__aur">
-                                <span class="dl__aur-tag">Arch</span>
-                                <code><span class="prompt">$</span>{AUR_COMMAND}</code>
-                                <button
-                                    type="button"
-                                    class="dl__aur-copy"
-                                    onClick={copyAur}
-                                    data-state={copied ? 'copied' : undefined}
-                                    aria-label="Copy the AUR install command"
-                                >
-                                    {copied ? (
-                                        <Check size={13} strokeWidth={2} aria-hidden="true" />
-                                    ) : (
-                                        <Copy size={13} strokeWidth={2} aria-hidden="true" />
-                                    )}
-                                </button>
-                            </div>
-                        </div>
+        <section class="download-section" id="download">
+            <div class="download-shell">
+                <div class="download-intro">
+                    <span class="section-label">Free & open source</span>
+                    <h2>Download MapWizard</h2>
+                    <p>Select your operating system to download the latest release. Installation packages are published on GitHub.</p>
+                    <a class="link-cta" href="#/wiki/Getting_started/en">Installation guide <BookOpen size={16} /></a>
+                    <div class="download-release" aria-live="polite">
+                        <span>{release ? release.error ? 'Release information unavailable' : release.version : 'Checking latest release…'}</span>
+                        <a href={release?.releaseUrl ?? FALLBACK} target="_blank" rel="noopener noreferrer">Release notes <ArrowUpRight size={14} /></a>
                     </div>
-
-                    {release?.error && (
-                        <p class="dl__error">
-                            Couldn’t load release info from GitHub, so the buttons point
-                            at the releases page instead.
-                        </p>
-                    )}
                 </div>
-
-                <div class="dl__aside reveal" style="--i: 1">
-                    <div class="dl__card">
-                        <p class="dl__card-label">This release</p>
-                        <p class="dl__card-version">
-                            {release && !release.error ? release.version : '—'}
-                        </p>
-                        <a
-                            class="dl__card-link"
-                            href={release?.releaseUrl ?? FALLBACK}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Read the changelog
-                        </a>
-                        {release && !release.error && (
-                            <div class="dl__notes" aria-label={`Changes in ${release.version}`}>
-                                {release.notes ? (
-                                    release.notes
-                                        .split(/\r?\n/)
-                                        .filter((line) => line.trim() && !line.includes('Full Changelog'))
-                                        .map((line, index) => (
-                                            <p key={`${line}-${index}`}>
-                                                {line.replace(/^\s*[-*]\s*/, '')}
-                                            </p>
-                                        ))
-                                ) : (
-                                    <p>No release notes were provided.</p>
-                                )}
-                            </div>
-                        )}
+                <div class="download-installer">
+                    <div class="platform-selector" role="group" aria-label="Choose your operating system">
+                        {PLATFORMS.map((p) => <button type="button" key={p.key} aria-pressed={selected === p.name} onClick={() => setSelected(p.name)}><p.icon size={18} />{p.name}</button>)}
                     </div>
-
-                    <div>
-                        <a
-                            class="btn btn--outline"
-                            href="https://github.com/maotovisk/MapWizard"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Read the source
-                        </a>
+                    <div class="download-package">
+                        <platform.icon size={40} strokeWidth={1.3} aria-hidden="true" />
+                        <span class="section-label">MapWizard for {platform.name}</span>
+                        <h3>{platform.format}</h3>
+                        <p>{platform.note}</p>
+                        <a class="btn btn--primary download-action" href={release?.assets[platform.key] ?? FALLBACK} target="_blank" rel="noopener noreferrer"><Download size={17} />Download for {platform.name}<ArrowUpRight size={16} /></a>
+                        <span class="download-format">{platform.format} · {release && !release.error ? release.version : 'Latest release'}</span>
+                        {platform.name === 'Linux' && <CodeBlock label="Or install on Arch Linux" command="yay -S mapwizard-git" />}
+                        {release?.error && <p class="dl__error" role="status">Downloads open the GitHub releases page while release information is unavailable.</p>}
                     </div>
-
-                    <p class="dl__error">
-                        Building from source needs the .NET 10 SDK —{' '}
-                        <code style="font-family: var(--font-mono); font-size: 0.85em;">
-                            dotnet run --project MapWizard.Desktop
-                        </code>
-                    </p>
+                    <div class="download-source"><span>Build from source</span><a href="https://github.com/maotovisk/MapWizard" target="_blank" rel="noopener noreferrer">Get the source <ArrowUpRight size={14} /></a></div>
                 </div>
             </div>
         </section>

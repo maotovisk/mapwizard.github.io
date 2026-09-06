@@ -1,16 +1,14 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
-import { Download, ArrowDown } from 'lucide-preact';
-import { fetchRelease, detectOS } from '@/lib/release';
+import { Download, BookOpen } from 'lucide-preact';
+import { detectOS } from '@/lib/release';
 import { scrollToHash } from '@/lib/scroll';
 
 export default function Hero() {
     const [os, setOs] = useState<'Windows' | 'macOS' | 'Linux'>('Windows');
-    const [version, setVersion] = useState<string | null>(null);
     const stageRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setOs(detectOS());
-        fetchRelease().then((r) => setVersion(r.error ? null : r.version));
     }, []);
 
     /* pointer parallax on the mock stage — lerped toward the pointer so it
@@ -67,20 +65,14 @@ export default function Hero() {
         <section class="hero" id="top">
             <div class="hero__grid">
                 <div>
-                    <span class="hero__chip reveal" style="--i: 0">
-                        <span class="dot" aria-hidden="true" />
-                        {version ? `${version} · ` : ''}free &amp; open source
-                    </span>
-
                     <h1 class="hero__title reveal" style="--i: 1">
-                        The tedious half of mapping, handled.
+                        Beatmap tools for osu!
                     </h1>
 
                     <p class="hero__lede reveal" style="--i: 2">
-                        MapWizard is a free, open-source desktop app for osu! mappers. Copy
-                        hitsounds across difficulties, fix metadata for the whole set,
-                        try out combo colours, resnap objects. No hand-editing every
-                        .osu file.
+                        Copy hitsounds between difficulties, edit metadata across a beatmap
+                        set, configure combo colours and resnap hit objects.
+                        Available for Windows, macOS and Linux.
                     </p>
 
                     <div class="hero__actions reveal" style="--i: 3">
@@ -97,21 +89,15 @@ export default function Hero() {
                         </a>
                         <a
                             class="link-cta"
-                            href="#screenshots"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                scrollToHash('#screenshots', { offset: 76, updateHash: true });
-                            }}
+                            href="#/wiki/Getting_started/en"
                         >
-                            See the screenshots
-                            <ArrowDown size={15} strokeWidth={2} aria-hidden="true" />
+                            Getting started
+                            <BookOpen size={15} strokeWidth={2} aria-hidden="true" />
                         </a>
                     </div>
 
                     <p class="hero__facts reveal" style="--i: 4">
-                        <span><b>5</b> tools</span>
-                        <span><b>3</b> platforms</span>
-                        <span><b>.NET 10</b> + Avalonia</span>
+                        <span>Made with<b>.NET 10</b> + Avalonia</span>
                         <span><b>MIT</b> license</span>
                     </p>
                 </div>
@@ -125,7 +111,6 @@ export default function Hero() {
                             alt=""
                             loading="lazy"
                         />
-                        <figcaption />
                     </figure>
                     <figure class="frame hero__mock">
                         <img
@@ -135,10 +120,6 @@ export default function Hero() {
                             alt="The MapWizard start screen: three tool cards — Hitsound Copier, Metadata Manager and Combo Colour Studio — beside the tool rail."
                             fetchpriority="high"
                         />
-                        <figcaption>
-                            <span>mapwizard — start</span>
-                            <span>win · mac · linux</span>
-                        </figcaption>
                     </figure>
                 </div>
             </div>

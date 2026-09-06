@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import {
-    Search, Github, Home, Images, Info, Download as DownloadIcon,
+    Search, Github, Home, Images, Info, BookOpen, Download as DownloadIcon,
 } from 'lucide-preact';
 import { scrollToHash } from '@/lib/scroll';
 import { useMorph, useScrollState } from '@/lib/reveal';
+import { articles } from '@/lib/wiki';
 
 const SECTIONS = ['top', 'screenshots', 'about', 'download'];
 
@@ -22,9 +23,31 @@ const IS_MAC =
 
 type Command = { name: string; desc: string; run: () => void };
 
-export default function Navigation() {
+export default function Navigation({ page = 'landing' }: { page?: 'landing' | 'wiki' }) {
+    const isWikiPage = page === 'wiki';
     const { active, scrolled } = useScrollState(SECTIONS);
     useMorph();
+
+    /* Navbar scroll progress — owned here so it stays live on every page
+       (landing sections and wiki) and recomputes on navigation instead of
+       going stale at the previous page's value. */
+    useEffect(() => {
+        const root = document.documentElement;
+        let ticking = false;
+        const onScroll = () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                const max = root.scrollHeight - window.innerHeight;
+                const progress = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+                root.style.setProperty('--scroll-progress', progress.toFixed(4));
+                ticking = false;
+            });
+        };
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
 
     const [open, setOpen] = useState(false);
     const [query, setQuery] = useState('');
@@ -34,10 +57,18 @@ export default function Navigation() {
 
     const go = (id: string) => {
         setOpen(false);
-        setTimeout(
-            () => scrollToHash(`#${id}`, { offset: 84, updateHash: id !== 'top' }),
-            40,
-        );
+        setTimeout(() => {
+            /* On the wiki page the landing sections don't exist — fall back to
+               a hash change so the router renders the landing and scrolls. */
+            if (!scrollToHash(`#${id}`, { offset: 84, updateHash: id !== 'top' })) {
+                window.location.hash = `#${id}`;
+            }
+        }, 40);
+    };
+
+    const goWiki = (slug: string) => {
+        setOpen(false);
+        window.location.hash = `/wiki/${slug}`;
     };
 
     const openPalette = () => {
@@ -52,8 +83,8 @@ export default function Navigation() {
             group: 'Tools',
             items: [
                 { name: 'Hitsound Copier', desc: 'Copy hitsounds between difficulties', run: () => go('tool-hitsound-copier') },
-                { name: 'Metadata Manager', desc: 'One edit, every difficulty', run: () => go('tool-metadata-manager') },
-                { name: 'Hitsound Visualizer', desc: 'See every layer on a timeline', run: () => go('tool-hitsound-visualizer') },
+                { name: 'Metadata Manager', desc: 'Edit metadata across difficulties', run: () => go('tool-metadata-manager') },
+                { name: 'Hitsound Visualizer', desc: 'Inspect hitsound layers on a timeline', run: () => go('tool-hitsound-visualizer') },
                 { name: 'Combo Colour Studio', desc: 'Saveable combo palettes', run: () => go('tool-combo-colour-studio') },
                 { name: 'Map Cleaner', desc: 'Resnap and strip greenlines', run: () => go('tool-map-cleaner') },
             ],
@@ -64,11 +95,23 @@ export default function Navigation() {
                 { name: 'Map picker', desc: 'Library browser inside every tool', run: () => go('feature-map-picker') },
             ],
         },
+        ...(articles.length > 0
+            ? [
+                {
+                    group: 'Wiki',
+                    items: articles.map((entry) => ({
+                        name: entry.title,
+                        desc: `Guide · ${entry.language}`,
+                        run: () => goWiki(entry.slug),
+                    })),
+                },
+            ]
+            : []),
         {
             group: 'Navigate',
             items: [
                 { name: 'Screenshots', desc: 'What the app looks like', run: () => go('screenshots') },
-                { name: 'About', desc: 'Why this exists', run: () => go('about') },
+                { name: 'About', desc: 'Project and implementation details', run: () => go('about') },
                 { name: 'Download', desc: 'Get the latest release', run: () => go('download') },
                 {
                     name: 'GitHub repository',
@@ -78,6 +121,11 @@ export default function Navigation() {
             ],
         },
     ] as { group: string; items: Command[] }[];
+    /* On the wiki the guides come first — palette order follows page content. */
+    if (isWikiPage) {
+        const wiki = groups.findIndex((g) => g.group === 'Wiki');
+        if (wiki > 0) groups.unshift(...groups.splice(wiki, 1));
+    }
 
     const filtered = groups
         .map((g) => ({
@@ -176,20 +224,41 @@ export default function Navigation() {
                         <span class="head-brand__word">MapWizard</span>
                     </a>
 
-                    <nav class="head-links" aria-label="Primary">
-                        {NAV_ITEMS.map((item) => (
+                    {isWikiPage ? (
+                        <nav class="head-links head-links--wiki" aria-label="Primary">
                             <a
-                                key={item.id}
-                                class={itemClass('head-link', item.id)}
-                                href={`#${item.id}`}
-                                aria-current={active === item.id ? 'true' : undefined}
-                                {...itemProps(item.id)}
+                                class="head-link"
+                                href="#top"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    go('top');
+                                }}
                             >
-                                <item.icon size={15} strokeWidth={2} aria-hidden="true" />
-                                <span class="head-link__label">{item.label}</span>
+                                <Home size={15} strokeWidth={2} aria-hidden="true" />
+                                <span class="head-link__label">Website</span>
                             </a>
-                        ))}
-                    </nav>
+                            <button type="button" class="head-link" onClick={openPalette}>
+                                <Search size={15} strokeWidth={2} aria-hidden="true" />
+                                <span class="head-link__label">Search</span>
+                            </button>
+                        </nav>
+                    ) : (
+                        <nav class="head-links" aria-label="Primary">
+                            {NAV_ITEMS.map((item) => (
+                                <a
+                                    key={item.id}
+                                    class={itemClass('head-link', item.id)}
+                                    href={`#${item.id}`}
+                                    aria-current={active === item.id ? 'true' : undefined}
+                                    {...itemProps(item.id)}
+                                >
+                                    <item.icon size={15} strokeWidth={2} aria-hidden="true" />
+                                    <span class="head-link__label">{item.label}</span>
+                                </a>
+                            ))}
+                            <a class="head-link head-link--mobile-wiki" href="#/wiki/Getting_started/en"><BookOpen size={15} aria-hidden="true" /><span class="head-link__label">Wiki</span></a>
+                        </nav>
+                    )}
 
                     <div class="head-tools">
                         <button
@@ -211,17 +280,20 @@ export default function Navigation() {
                         >
                             <Github size={16} strokeWidth={1.9} aria-hidden="true" />
                         </a>
-                        <a
-                            class="btn btn--primary btn--sm"
-                            href="#download"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                go('download');
-                            }}
-                        >
-                            <DownloadIcon size={14} strokeWidth={2} aria-hidden="true" />
-                            <span class="head-cta__label">Download</span>
-                        </a>
+                        {isWikiPage ? (
+                            <a
+                                class="head-wiki"
+                                href="#top"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    go('top');
+                                }}
+                            >
+                                <Home size={15} strokeWidth={2} aria-hidden="true" /><span>Website</span>
+                            </a>
+                        ) : (
+                            <a class="head-wiki" href="#/wiki/Getting_started/en"><BookOpen size={15} aria-hidden="true" /><span>Wiki</span></a>
+                        )}
                     </div>
                 </div>
             </header>
