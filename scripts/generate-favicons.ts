@@ -10,7 +10,7 @@ const FAVICON_SIZES = [16, 32, 48, 64, 128, 192, 256, 512];
 
 const SOCIAL_PREVIEW_WIDTH = 1200;
 const SOCIAL_PREVIEW_HEIGHT = 630;
-const SOCIAL_PREVIEW_BGCOLOR = "#ffffff"; // White background
+const SOCIAL_PREVIEW_BGCOLOR = "#0a0a0a"; // MapWizard Noir background
 
 async function convertFavicons() {
   console.log("Converting favicons...");

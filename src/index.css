@@ -1,32 +1,32 @@
 @import "tailwindcss";
 
-/* ───────────────────────────── tokens — dark, tuned to the app ───────────────────────────── */
+/* ───────────────────────────── tokens — MapWizard Noir (matches ThemeService.cs) ───────────────────────────── */
 
 :root {
   color-scheme: dark;
 
-  --color-paper: oklch(13% 0.012 268);
-  --color-paper-2: oklch(16.5% 0.014 268);
-  --color-paper-3: oklch(20% 0.016 268);
-  --color-rule: oklch(25% 0.016 268);
-  --color-rule-2: oklch(32% 0.018 268);
+  --color-paper: oklch(14.5% 0 0);          /* #0A0A0A strong background */
+  --color-paper-2: oklch(17.3% 0 0);        /* #101010 card background */
+  --color-paper-3: oklch(21.8% 0 0);        /* #1A1A1A control touch background */
+  --color-rule: oklch(25.6% 0 0);           /* #232323 border brush */
+  --color-rule-2: oklch(30.9% 0 0);         /* #303030 control border brush */
 
-  --color-ink: oklch(96% 0.005 268);
-  --color-ink-2: oklch(87% 0.008 268);
-  --color-muted: oklch(70% 0.014 268);
-  --color-neutral: oklch(59% 0.016 268);
+  --color-ink: oklch(94.9% 0 0);            /* #EEEEEE SukiText */
+  --color-ink-2: oklch(87% 0 0);            /* #D4D4D4 */
+  --color-muted: oklch(73.2% 0 0);          /* #A8A8A8 SukiLowText */
+  --color-neutral: oklch(60% 0 0);          /* #808080 SukiMuteText */
 
-  --color-accent: oklch(55% 0.185 274);
-  --color-accent-strong: oklch(74% 0.14 274);
-  --color-accent-deep: oklch(49% 0.17 274);
-  --color-accent-wash: oklch(28% 0.055 274);
-  --color-accent-ink: oklch(99% 0.004 274);
-  --color-focus: oklch(72% 0.16 274);
-  --color-grid-dot: oklch(55% 0.04 274 / 0.15);
-  --color-selection: oklch(60% 0.19 274 / 0.35);
+  --color-accent: oklch(84.7% 0.116 127);        /* #B8DB87 */
+  --color-accent-strong: oklch(88.7% 0.096 127); /* #C9E6A1 hover */
+  --color-accent-deep: oklch(71% 0.107 127);     /* #8FAE63 */
+  --color-accent-wash: color-mix(in oklab, var(--color-accent) 18%, transparent);
+  --color-accent-ink: oklch(20.8% 0.024 127);    /* #151A0E accent foreground */
+  --color-focus: oklch(88.7% 0.096 127);
+  --color-grid-dot: oklch(84.7% 0.116 127 / 0.12);
+  --color-selection: oklch(84.7% 0.116 127 / 0.30); /* #4DB8DB87 picker selection */
 
-  --color-surface-band: oklch(17.5% 0.015 268);
-  --color-backdrop: oklch(8% 0.01 268 / 0.62);
+  --color-surface-band: oklch(18.2% 0 0);   /* #121212 */
+  --color-backdrop: color-mix(in oklab, var(--color-paper) 62%, transparent);
 
   /* the app's real combo colours (content tokens, from the Combo Colour Studio shot) */
   --combo-1: #c05457;
@@ -785,22 +785,6 @@ main, footer { position: relative; z-index: var(--z-base); }
 }
 .is-in .tool__index::after { transform: scaleX(1); }
 
-/* shared-feature eyebrow — quieter than the numbered tool index */
-.tool__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font: 500 0.72rem/1 var(--font-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-neutral);
-  border: 1px solid var(--color-rule-2);
-  border-radius: 999px;
-  padding: 0.35rem 0.7rem;
-  margin-block-end: var(--space-sm);
-}
-.tool--picker { padding-block: var(--space-xl); }
-
 .tool__text h3 { font-size: clamp(1.45rem, 1.6vw + 0.9rem, 1.9rem); font-weight: 600; line-height: 1.15; margin: 0 0 var(--space-md); }
 .tool__text p { color: var(--color-muted); margin: 0 0 var(--space-md); max-width: 32rem; }
 .tool__meta {
@@ -899,7 +883,7 @@ main, footer { position: relative; z-index: var(--z-base); }
 .dl__error { font-size: 0.8rem; color: var(--color-neutral); }
 
 .download-section { position: relative; isolation: isolate; }
-.download-section::before { content: ''; position: absolute; inset: 12% 4% 12% 55%; z-index: -1; pointer-events: none; opacity: 0.55; background: repeating-linear-gradient(135deg, transparent 0 44px, oklch(65% 0.07 274 / 0.16) 44px 45px), radial-gradient(ellipse, oklch(45% 0.06 274 / 0.2), transparent 70%); mask-image: radial-gradient(ellipse, black 20%, transparent 70%); }
+.download-section::before { content: ''; position: absolute; inset: 12% 4% 12% 55%; z-index: -1; pointer-events: none; opacity: 0.55; background: repeating-linear-gradient(135deg, transparent 0 44px, color-mix(in oklab, var(--color-accent) 16%, transparent) 44px 45px), radial-gradient(ellipse, color-mix(in oklab, var(--color-accent) 20%, transparent), transparent 70%); mask-image: radial-gradient(ellipse, black 20%, transparent 70%); }
 @media (max-width: 60rem) { .download-shell { grid-template-columns: minmax(0, 1fr); max-width: 40rem; } }
 
 .codeblock { background: var(--color-paper); border: 1px solid var(--color-rule-2); border-radius: var(--radius-frame); overflow: hidden; font-family: var(--font-mono); }

@@ -5,7 +5,6 @@ type Shot = { src: string; alt: string; caption: string };
 
 const SHOTS: Shot[] = [
     { src: '/img/screenshots/hscopier.png', alt: 'Hitsound Copier with an origin beatmap selected, destination difficulties and a list of copy options with toggles.', caption: 'hitsound copier — origin → destination' },
-    { src: '/img/screenshots/mappicker.png', alt: 'The Map Picker modal: a search field with beatmap rows showing cover art, mapper names and difficulty counts.', caption: 'map picker — shared library browser' },
     { src: '/img/screenshots/metadata.png', alt: 'Metadata Manager showing editable title and artist fields next to general settings like preview time and audio file.', caption: 'metadata manager · beatmap set metadata' },
     { src: '/img/screenshots/visualizer.png', alt: 'Hitsound Visualizer timeline showing sample changes across hitnormal, hitwhistle, hitfinish and hitclap layers with playback controls.', caption: 'hitsound visualizer — every layer, on the timeline' },
     { src: '/img/screenshots/colours.png', alt: 'Combo Colour Studio listing six combo colours with hex pickers, saved project state and apply/export actions.', caption: 'combo colour studio — project saved' },
@@ -16,12 +15,10 @@ function Frame({
     shot,
     index,
     onExpand,
-    right,
 }: {
     shot: Shot;
     index: number;
     onExpand: (index: number) => void;
-    right?: string;
 }) {
     return (
         <figure class="frame frame--zoom">
@@ -34,10 +31,6 @@ function Frame({
             >
                 <Expand size={14} strokeWidth={2} aria-hidden="true" />
             </button>
-            <figcaption>
-                <span>{shot.caption}</span>
-                {right && <span>{right}</span>}
-            </figcaption>
         </figure>
     );
 }
@@ -142,24 +135,9 @@ export default function Features() {
                 </div>
             </div>
 
-            {/* shared · Map Picker — not a tool, the browser inside every tool */}
-            <div class="tool tool--flip tool--picker" id="feature-map-picker">
+            {/* 02 · Metadata Manager — flipped */}
+            <div class="tool tool--flip" id="tool-metadata-manager">
                 <div class="tool__text reveal reveal--right">
-                    <span class="tool__eyebrow">Shared · in every tool</span>
-                    <h3>Map picker</h3>
-                    <p>
-                        Browse the Songs folder, search beatmap sets and select
-                        difficulties. Open a local folder manually when needed.
-                    </p>
-                </div>
-                <div class="tool__shot reveal reveal--left">
-                    <Frame shot={SHOTS[1]} index={1} onExpand={setPreview} right="modal" />
-                </div>
-            </div>
-
-            {/* 02 · Metadata Manager */}
-            <div class="tool" id="tool-metadata-manager">
-                <div class="tool__text reveal reveal--left">
                     <span class="tool__index">02</span>
                     <h3>Metadata Manager</h3>
                     <p>
@@ -167,14 +145,14 @@ export default function Features() {
                         across selected difficulties.
                     </p>
                 </div>
-                <div class="tool__shot reveal reveal--right">
-                    <Frame shot={SHOTS[2]} index={2} onExpand={setPreview} />
+                <div class="tool__shot reveal reveal--left">
+                    <Frame shot={SHOTS[1]} index={1} onExpand={setPreview} />
                 </div>
             </div>
 
-            {/* 03 · Hitsound Visualizer — flipped */}
-            <div class="tool tool--flip" id="tool-hitsound-visualizer">
-                <div class="tool__text reveal reveal--right">
+            {/* 03 · Hitsound Visualizer */}
+            <div class="tool" id="tool-hitsound-visualizer">
+                <div class="tool__text reveal reveal--left">
                     <span class="tool__index">03</span>
                     <h3>Hitsound Visualizer</h3>
                     <p>
@@ -182,14 +160,14 @@ export default function Features() {
                         with sample bank selection and audio playback.
                     </p>
                 </div>
-                <div class="tool__shot reveal reveal--left">
-                    <Frame shot={SHOTS[3]} index={3} onExpand={setPreview} right="6:12.767" />
+                <div class="tool__shot reveal reveal--right">
+                    <Frame shot={SHOTS[2]} index={2} onExpand={setPreview} />
                 </div>
             </div>
 
-            {/* 04 · Combo Colour Studio */}
-            <div class="tool" id="tool-combo-colour-studio">
-                <div class="tool__text reveal reveal--left">
+            {/* 04 · Combo Colour Studio — flipped */}
+            <div class="tool tool--flip" id="tool-combo-colour-studio">
+                <div class="tool__text reveal reveal--right">
                     <span class="tool__index">04</span>
                     <h3>Combo Colour Studio</h3>
                     <p>
@@ -205,14 +183,14 @@ export default function Features() {
                         <span style="background: var(--combo-6)" />
                     </div>
                 </div>
-                <div class="tool__shot reveal reveal--right">
-                    <Frame shot={SHOTS[4]} index={4} onExpand={setPreview} right="#c05457 → #7f3468" />
+                <div class="tool__shot reveal reveal--left">
+                    <Frame shot={SHOTS[3]} index={3} onExpand={setPreview} />
                 </div>
             </div>
 
-            {/* 05 · Map Cleaner — flipped */}
-            <div class="tool tool--flip" id="tool-map-cleaner">
-                <div class="tool__text reveal reveal--right">
+            {/* 05 · Map Cleaner */}
+            <div class="tool" id="tool-map-cleaner">
+                <div class="tool__text reveal reveal--left">
                     <span class="tool__index">05</span>
                     <h3>Map Cleaner</h3>
                     <p>
@@ -220,8 +198,8 @@ export default function Features() {
                         remove muting sections and delete unused greenlines.
                     </p>
                 </div>
-                <div class="tool__shot reveal reveal--left">
-                    <Frame shot={SHOTS[5]} index={5} onExpand={setPreview} />
+                <div class="tool__shot reveal reveal--right">
+                    <Frame shot={SHOTS[4]} index={4} onExpand={setPreview} />
                 </div>
             </div>
             {preview !== null && (

@@ -89,12 +89,6 @@ export default function Navigation({ page = 'landing' }: { page?: 'landing' | 'w
                 { name: 'Map Cleaner', desc: 'Resnap and strip greenlines', run: () => go('tool-map-cleaner') },
             ],
         },
-        {
-            group: 'Shared',
-            items: [
-                { name: 'Map picker', desc: 'Library browser inside every tool', run: () => go('feature-map-picker') },
-            ],
-        },
         ...(articles.length > 0
             ? [
                 {
