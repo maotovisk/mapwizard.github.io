@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'preact/hooks';
-import { Download, ArrowUpRight, BookOpen } from 'lucide-preact';
+import { Download, ArrowUpRight, BookOpen, Terminal } from 'lucide-preact';
 import { fetchRelease, detectOS } from '@/lib/release';
 import CodeBlock from '@/components/ui/CodeBlock';
 import { WindowsIcon, MacIcon, LinuxIcon, ArchIcon } from '@/components/ui/Icons';
 
 const FALLBACK = 'https://github.com/maotovisk/MapWizard/releases/latest';
+const INSTALL_COMMAND = 'curl -fsSL https://mapwizard.maot.dev/install | bash';
 const PLATFORMS = [
     { name: 'Windows', key: 'windows', icon: WindowsIcon, format: '.exe installer', note: 'Run the installer to get started.' },
     { name: 'macOS', key: 'mac', icon: MacIcon, format: '.pkg installer', note: 'Open the package and follow the installer.' },
@@ -22,7 +23,7 @@ export default function DownloadSection() {
                 <div class="download-intro">
                     <span class="section-label">Free & open source</span>
                     <h2>Download MapWizard</h2>
-                    <p>Select your operating system to download the latest release. Installation packages are published on GitHub.</p>
+                    <p>Select your operating system to download the latest release, or install from the terminal on Linux and macOS. Installation packages are published on GitHub.</p>
                     <a class="link-cta" href="#/wiki/Getting_started/en">Installation guide <BookOpen size={16} /></a>
                     <div class="download-release" aria-live="polite">
                         <span>{release ? release.error ? 'Release information unavailable' : release.version : 'Checking latest release…'}</span>
@@ -40,6 +41,12 @@ export default function DownloadSection() {
                         <p>{platform.note}</p>
                         <a class="btn btn--primary download-action" href={release?.assets[platform.key] ?? FALLBACK} target="_blank" rel="noopener noreferrer"><Download size={17} />Download for {platform.name}<ArrowUpRight size={16} /></a>
                         <span class="download-format">{platform.format} · {release && !release.error ? release.version : 'Latest release'}</span>
+                        {platform.name !== 'Windows' && (
+                            <>
+                                <CodeBlock label="Or install from the terminal" command={INSTALL_COMMAND} icon={<Terminal size={14} />} wrap />
+                                <p class="download-hint">Installs the latest stable release. Pass <code>--pre</code> for the newest pre-release.</p>
+                            </>
+                        )}
                         {platform.name === 'Linux' && <CodeBlock label="Or install on Arch Linux" command="yay -S mapwizard-git" icon={<ArchIcon size={14} />} />}
                         {release?.error && <p class="dl__error" role="status">Downloads open the GitHub releases page while release information is unavailable.</p>}
                     </div>

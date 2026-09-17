@@ -7,10 +7,12 @@ type CodeBlockProps = {
     prompt?: string;
     /** Optional brand mark shown before the label (e.g. the Arch Linux glyph). */
     icon?: ComponentChildren;
+    /** Let a long command wrap onto the next line instead of scrolling sideways. */
+    wrap?: boolean;
 };
 
 /** Graphite code block — typographic frame, no fake window chrome. */
-export function CodeBlock({ label, command, prompt = '$', icon }: CodeBlockProps) {
+export function CodeBlock({ label, command, prompt = '$', icon, wrap }: CodeBlockProps) {
     const [copied, setCopied] = useState(false);
 
     const copy = async () => {
@@ -24,7 +26,7 @@ export function CodeBlock({ label, command, prompt = '$', icon }: CodeBlockProps
     };
 
     return (
-        <div class="codeblock">
+        <div class={wrap ? 'codeblock codeblock--wrap' : 'codeblock'}>
             <div class="codeblock__label">
                 <span class={icon ? 'codeblock__label-text has-icon' : 'codeblock__label-text'}>
                     {icon}

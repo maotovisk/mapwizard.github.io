@@ -87,7 +87,7 @@ export default function Navigation({ page = 'landing' }: { page?: 'landing' | 'w
             items: [
                 { name: 'Hitsound Copier', desc: 'Copy hitsounds between difficulties', run: () => go('tool-hitsound-copier') },
                 { name: 'Metadata Manager', desc: 'Edit metadata across difficulties', run: () => go('tool-metadata-manager') },
-                { name: 'Hitsound Visualizer', desc: 'Inspect hitsound layers on a timeline', run: () => go('tool-hitsound-visualizer') },
+                { name: 'Hitsound Editor', desc: 'Inspect hitsound layers on a timeline', run: () => go('tool-hitsound-editor') },
                 { name: 'Combo Colour Studio', desc: 'Saveable combo palettes', run: () => go('tool-combo-colour-studio') },
                 { name: 'Map Cleaner', desc: 'Resnap and strip greenlines', run: () => go('tool-map-cleaner') },
             ],

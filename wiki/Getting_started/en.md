@@ -6,16 +6,30 @@ MapWizard is a free, open-source desktop app for osu! mappers. It includes tools
 
 ## 1. Install MapWizard
 
-[Download MapWizard](#download) and choose your operating system.
+**Windows:** download and run the `.exe` installer from the [latest release](https://github.com/maotovisk/MapWizard/releases/latest).
 
-- **Windows:** download and run the `.exe` installer.
-- **macOS:** download and open the `.pkg` installer, then follow the installation steps.
-- **Linux:** download the AppImage, allow it to run as a program in your file manager, then open it. From a terminal in the download folder, you can use:
+**Linux and macOS:** install the latest stable release with one command:
 
 ```sh
-chmod +x MapWizard.Desktop.AppImage
-./MapWizard.Desktop.AppImage
+curl -fsSL https://mapwizard.maot.dev/install | bash
 ```
+
+On Linux this places the AppImage in `~/.local/bin` and adds a desktop launcher. On macOS it installs the `.pkg` and asks for your password. Prefer a manual install? Download the AppImage or `.pkg` from the [latest release](https://github.com/maotovisk/MapWizard/releases/latest) and open it.
+
+Builds are published for 64-bit x86. Apple Silicon Macs run the app through Rosetta 2, and there is no arm64 Linux build yet.
+
+### Installer options
+
+| Option            | What it does                                                             |
+| ----------------- | ------------------------------------------------------------------------ |
+| `--pre`           | Install the newest pre-release instead of the latest stable.             |
+| `--version <tag>` | Install a specific release, for example `--version 3.0.0-rc2`.           |
+| `--dir <path>`    | Linux only: where to place the AppImage. Defaults to `~/.local/bin`.     |
+| `--portable`      | macOS only: unzip to `~/Applications` instead of installing the package. |
+| `--no-desktop`    | Linux only: skip the desktop launcher.                                   |
+| `-h`, `--help`    | Show the available options.                                              |
+
+Update from inside the app afterwards under **Settings → Updates**.
 
 On Arch Linux, you can also install the development package from the AUR with an AUR helper:
 
@@ -33,13 +47,13 @@ Choose the set and difficulties you want to work with. Before applying your firs
 
 ## 3. Pick the tool for the job
 
-| Tool | Use it to |
-| --- | --- |
-| Hitsound Copier | Copy hitsounds from an origin difficulty to destination difficulties. |
-| Metadata Manager | Edit shared information such as title and artist across a set. |
-| Hitsound Visualizer | Inspect hitsound layers on a timeline and listen against the song. |
-| Combo Colour Studio | Create a combo palette, save a project and apply colours. |
-| Map Cleaner | Resnap objects and timing points, or remove unused greenlines. |
+| Tool                | Use it to                                                             |
+| ------------------- | --------------------------------------------------------------------- |
+| Hitsound Copier     | Copy hitsounds from an origin difficulty to destination difficulties. |
+| Metadata Manager    | Edit shared information such as title and artist across a set.        |
+| Hitsound Editor     | Inspect hitsound layers on a timeline and listen against the song.    |
+| Combo Colour Studio | Create a combo palette, save a project and apply colours.             |
+| Map Cleaner         | Resnap objects and timing points, or remove unused greenlines.        |
 
 For a simple first task, open **Metadata Manager**, select a set and check its title and artist. Edit the fields you need, review the selected difficulties and apply your changes.
 

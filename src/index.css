@@ -540,6 +540,7 @@ main, footer { position: relative; z-index: var(--z-base); }
 .hero__title { font-size: clamp(2.5rem, 4.5vw + 1rem, 4.25rem); font-weight: 600; line-height: 1.05; letter-spacing: -0.03em; margin: var(--space-lg) 0; }
 .hero__lede { font-size: 1.1rem; line-height: 1.65; color: var(--color-muted); max-width: 34rem; margin-block-end: var(--space-xl); }
 .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-lg); }
+.hero__install { max-width: 34rem; margin-block-start: var(--space-lg); }
 .hero__facts {
   display: flex;
   flex-wrap: wrap;
@@ -881,6 +882,8 @@ main, footer { position: relative; z-index: var(--z-base); }
 .download-package .codeblock { margin-top: 1.5rem; }
 .download-source { border-top: 1px solid var(--color-rule); padding: 1rem 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: space-between; font-size: 0.75rem; color: var(--color-muted); }
 .dl__error { font-size: 0.8rem; color: var(--color-neutral); }
+.download-package > .download-hint { font-size: 0.72rem; color: var(--color-neutral); margin: 0.75rem 0 0; }
+.download-hint code { font-family: var(--font-mono); color: var(--color-ink-2); }
 
 .download-section { position: relative; isolation: isolate; }
 .download-section::before { content: ''; position: absolute; inset: 12% 4% 12% 55%; z-index: -1; pointer-events: none; opacity: 0.55; background: repeating-linear-gradient(135deg, transparent 0 44px, color-mix(in oklab, var(--color-accent) 16%, transparent) 44px 45px), radial-gradient(ellipse, color-mix(in oklab, var(--color-accent) 20%, transparent), transparent 70%); mask-image: radial-gradient(ellipse, black 20%, transparent 70%); }
@@ -921,6 +924,11 @@ main, footer { position: relative; z-index: var(--z-base); }
 }
 .codeblock__copy:hover { color: var(--color-ink); border-color: var(--color-muted); }
 .codeblock__copy[data-state="copied"] { color: var(--color-accent-strong); border-color: var(--color-accent-strong); }
+/* Long commands (e.g. the one-line installer) wrap instead of scrolling once
+   there is enough room; on narrow screens they scroll, keeping URLs intact. */
+@media (min-width: 30rem) {
+  .codeblock--wrap .codeblock__body code { white-space: normal; overflow-wrap: anywhere; }
+}
 
 /* ───────────────────────────── sticky download CTA (desktop) ───────────────────────────── */
 
@@ -1010,6 +1018,7 @@ main, footer { position: relative; z-index: var(--z-base); }
 .markdown { color: var(--color-muted); line-height: 1.8; overflow-wrap: anywhere; }
 .markdown h1 { font-size: clamp(2.5rem, 5vw, 3.8rem); font-weight: 600; line-height: 1.1; margin: 0 0 1.5rem; }
 .markdown h2 { font-size: 1.55rem; font-weight: 500; margin: 3rem 0 1rem; padding-top: 1.5rem; border-top: 1px solid var(--color-rule); }
+.markdown h3 { font-size: 1.15rem; font-weight: 500; margin: 2rem 0 0.75rem; }
 .markdown p { margin: 1rem 0; }
 .markdown a, .wiki-article-footer a { color: var(--color-accent-strong); text-underline-offset: 4px; }
 .markdown strong { color: var(--color-ink-2); font-weight: 600; }

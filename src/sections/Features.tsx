@@ -6,7 +6,7 @@ type Shot = { src: string; alt: string; caption: string };
 const SHOTS: Shot[] = [
     { src: '/img/screenshots/hscopier.png', alt: 'Hitsound Copier with an origin beatmap selected, destination difficulties and a list of copy options with toggles.', caption: 'hitsound copier — origin → destination' },
     { src: '/img/screenshots/metadata.png', alt: 'Metadata Manager showing editable title and artist fields next to general settings like preview time and audio file.', caption: 'metadata manager · beatmap set metadata' },
-    { src: '/img/screenshots/visualizer.png', alt: 'Hitsound Visualizer timeline showing sample changes across hitnormal, hitwhistle, hitfinish and hitclap layers with playback controls.', caption: 'hitsound visualizer — every layer, on the timeline' },
+    { src: '/img/screenshots/editor.png', alt: 'Hitsound Editor timeline showing sample changes across hitnormal, hitwhistle, hitfinish and hitclap layers with playback controls.', caption: 'hitsound editor — every layer, on the timeline' },
     { src: '/img/screenshots/colours.png', alt: 'Combo Colour Studio listing six combo colours with hex pickers, saved project state and apply/export actions.', caption: 'combo colour studio — project saved' },
     { src: '/img/screenshots/cleaner.png', alt: 'Map Cleaner with beat snap presets 1/8 and 1/2 and action toggles for resnapping, mute removal and unused greenlines.', caption: 'map cleaner · timing and greenline options' },
 ];
@@ -150,11 +150,11 @@ export default function Features() {
                 </div>
             </div>
 
-            {/* 03 · Hitsound Visualizer */}
-            <div class="tool" id="tool-hitsound-visualizer">
+            {/* 03 · Hitsound Editor */}
+            <div class="tool" id="tool-hitsound-editor">
                 <div class="tool__text reveal reveal--left">
                     <span class="tool__index">03</span>
-                    <h3>Hitsound Visualizer</h3>
+                    <h3>Hitsound Editor</h3>
                     <p>
                         Inspect normal, whistle, finish and clap layers on a timeline
                         with sample bank selection and audio playback.

@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
-import { Download, BookOpen } from 'lucide-preact';
+import { Download, BookOpen, Terminal } from 'lucide-preact';
 import { detectOS } from '@/lib/release';
 import { scrollToHash } from '@/lib/scroll';
+import CodeBlock from '@/components/ui/CodeBlock';
+
+const INSTALL_COMMAND = 'curl -fsSL https://mapwizard.maot.dev/install | bash';
 
 export default function Hero() {
-    const [os, setOs] = useState<'Windows' | 'macOS' | 'Linux'>('Windows');
+    const [os] = useState<'Windows' | 'macOS' | 'Linux'>(() => detectOS());
     const stageRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        setOs(detectOS());
-    }, []);
 
     /* pointer parallax on the mock stage — lerped toward the pointer so it
        glides instead of snapping. fine pointers + motion allowed only. */
@@ -96,8 +95,19 @@ export default function Hero() {
                         </a>
                     </div>
 
-                    <p class="hero__facts reveal" style="--i: 4">
-                        <span>Made with<b>.NET 10</b> + Avalonia</span>
+                    {os !== 'Windows' && (
+                        <div class="hero__install reveal" style="--i: 4">
+                            <CodeBlock
+                                label={`Or install on ${os} from the terminal`}
+                                command={INSTALL_COMMAND}
+                                icon={<Terminal size={14} />}
+                                wrap
+                            />
+                        </div>
+                    )}
+
+                    <p class="hero__facts reveal" style={`--i: ${os === 'Windows' ? 4 : 5}`}>
+                        <span>Made with <b>.NET 10</b> + Avalonia</span>
                         <span><b>MIT</b> license</span>
                     </p>
                 </div>
