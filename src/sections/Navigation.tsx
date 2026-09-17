@@ -5,6 +5,7 @@ import {
 import { scrollToHash } from '@/lib/scroll';
 import { useMorph, useScrollState } from '@/lib/reveal';
 import { articles } from '@/lib/wiki';
+import { DiscordIcon } from '@/components/ui/Icons';
 
 const SECTIONS = ['top', 'screenshots', 'about', 'download'];
 
@@ -16,6 +17,8 @@ const NAV_ITEMS = [
 ];
 
 const GITHUB = 'https://github.com/maotovisk/MapWizard';
+/* Redirect endpoint; the invite itself comes from DISCORD_INVITE_LINK at build time. */
+const DISCORD = '/discord';
 
 const IS_MAC =
     typeof navigator !== 'undefined' &&
@@ -111,6 +114,11 @@ export default function Navigation({ page = 'landing' }: { page?: 'landing' | 'w
                     name: 'GitHub repository',
                     desc: 'maotovisk/MapWizard',
                     run: () => window.open(GITHUB, '_blank'),
+                },
+                {
+                    name: 'Discord server',
+                    desc: 'Chat with mappers and contributors',
+                    run: () => window.open(DISCORD, '_blank'),
                 },
             ],
         },
@@ -273,6 +281,15 @@ export default function Navigation({ page = 'landing' }: { page?: 'landing' | 'w
                             aria-label="MapWizard on GitHub"
                         >
                             <Github size={16} strokeWidth={1.9} aria-hidden="true" />
+                        </a>
+                        <a
+                            class="head-icon head-icon--discord"
+                            href={DISCORD}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Join the MapWizard Discord"
+                        >
+                            <DiscordIcon size={16} aria-hidden="true" />
                         </a>
                         {isWikiPage ? (
                             <a

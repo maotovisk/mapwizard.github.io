@@ -1,13 +1,16 @@
 import { useState } from 'preact/hooks';
+import type { ComponentChildren } from 'preact';
 
 type CodeBlockProps = {
     label: string;
     command: string;
     prompt?: string;
+    /** Optional brand mark shown before the label (e.g. the Arch Linux glyph). */
+    icon?: ComponentChildren;
 };
 
 /** Graphite code block — typographic frame, no fake window chrome. */
-export function CodeBlock({ label, command, prompt = '$' }: CodeBlockProps) {
+export function CodeBlock({ label, command, prompt = '$', icon }: CodeBlockProps) {
     const [copied, setCopied] = useState(false);
 
     const copy = async () => {
@@ -23,7 +26,10 @@ export function CodeBlock({ label, command, prompt = '$' }: CodeBlockProps) {
     return (
         <div class="codeblock">
             <div class="codeblock__label">
-                <span>{label}</span>
+                <span class={icon ? 'codeblock__label-text has-icon' : 'codeblock__label-text'}>
+                    {icon}
+                    <span>{label}</span>
+                </span>
                 <span aria-hidden="true">sh</span>
             </div>
             <div class="codeblock__body">

@@ -1,3 +1,5 @@
+import { DiscordIcon } from '@/components/ui/Icons';
+
 export default function Footer() {
     return (
         <footer class="foot">
@@ -15,7 +17,16 @@ export default function Footer() {
                     </a>
                 </span>
                 <span>
-                    MIT license ·{' '}
+                    <a
+                        class="foot__discord"
+                        href="/discord"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <DiscordIcon size={14} aria-hidden="true" />
+                        Discord
+                    </a>
+                    {' '}· MIT license ·{' '}
                     <a href="https://github.com/maotovisk/MapWizard" target="_blank" rel="noopener noreferrer">
                         GitHub
                     </a>

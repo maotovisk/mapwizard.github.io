@@ -35,6 +35,10 @@ jobs:
         run: bun install
 
       - name: Build
+        env:
+          # Repository variable (Settings → Secrets and variables → Actions → Variables).
+          # GitHub Pages is static, so Vite bakes this in at build time.
+          DISCORD_INVITE_LINK: ${{ vars.DISCORD_INVITE_LINK }}
         run: bun run build
 
       - name: Setup Pages

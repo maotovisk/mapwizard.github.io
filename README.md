@@ -47,6 +47,27 @@ bun run generate:icons
 
 The website automatically deploys to GitHub Pages when changes are pushed to the main branch.
 
+### Environment variables
+
+GitHub Pages only serves static files, so there is no runtime environment:
+variables are provided at **build time** and inlined into the bundle by Vite.
+Any variable prefixed with `VITE_` or `DISCORD_` is available as
+`import.meta.env.<NAME>`:
+
+| Variable | Purpose |
+| --- | --- |
+| `DISCORD_INVITE_LINK` | Full invite URL behind the `/discord` redirect page. |
+
+- **Locally**: copy `.env.example` to `.env.local` and fill in the value.
+- **In CI**: add a repository variable named `DISCORD_INVITE_LINK` under
+  *Settings → Secrets and variables → Actions → Variables*. The deploy
+  workflow passes it to the `bun run build` step.
+- Changing the value requires a new deployment — the old URL stays in the
+  previously published bundle.
+
+`/discord` is a standalone `discord.html` page (GitHub Pages serves it without
+the extension) that redirects to the invite URL.
+
 ## License
 
 This project is open-source and available under the [MIT License](LICENSE).

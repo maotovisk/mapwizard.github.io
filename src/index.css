@@ -255,7 +255,7 @@ main, footer { position: relative; z-index: var(--z-base); }
     inline-size: max-content;
     margin-inline-start: calc((1 - var(--c)) * 0.5rem + var(--c) * 0.35rem);
   }
-  .site-head .head-icon--github {
+  .site-head .head-icon {
     width: calc((1 - var(--c)) * 2.1rem);
     opacity: calc(1 - var(--c));
     border-width: calc((1 - var(--c)) * 1px);
@@ -898,6 +898,8 @@ main, footer { position: relative; z-index: var(--z-base); }
   text-transform: uppercase;
   color: var(--color-neutral);
 }
+.codeblock__label-text { display: inline-flex; align-items: center; gap: 0.45rem; }
+.codeblock__label-text.has-icon svg { color: var(--color-accent-strong); flex: none; }
 .codeblock__body { display: flex; align-items: center; gap: var(--space-md); padding: 0.85rem 0.9rem; }
 .codeblock__body code { flex: 1; font: 500 0.85rem/1.5 var(--font-mono); color: var(--color-ink); overflow-x: auto; white-space: nowrap; }
 .codeblock__body code .prompt { color: var(--color-accent-strong); user-select: none; }
@@ -979,6 +981,8 @@ main, footer { position: relative; z-index: var(--z-base); }
   transition: color var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out);
 }
 .foot__meta a:hover { color: var(--color-accent-strong); border-color: var(--color-accent); }
+.foot__discord { display: inline-flex; align-items: center; gap: 0.35rem; vertical-align: middle; }
+.foot__discord svg { color: var(--color-accent-strong); }
 .foot__brand { display: inline-flex; align-items: center; gap: 0.45rem; font-family: var(--font-display); font-weight: 600; color: var(--color-ink); }
 .foot__brand img { width: 1.25rem; height: 1.25rem; border-radius: 4px; }
 .foot__brand a { all: unset; cursor: pointer; }

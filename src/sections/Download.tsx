@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'preact/hooks';
-import { Monitor, Apple, Laptop, Download, ArrowUpRight, BookOpen } from 'lucide-preact';
+import { Download, ArrowUpRight, BookOpen } from 'lucide-preact';
 import { fetchRelease, detectOS } from '@/lib/release';
 import CodeBlock from '@/components/ui/CodeBlock';
+import { WindowsIcon, MacIcon, LinuxIcon, ArchIcon } from '@/components/ui/Icons';
 
 const FALLBACK = 'https://github.com/maotovisk/MapWizard/releases/latest';
 const PLATFORMS = [
-    { name: 'Windows', key: 'windows', icon: Monitor, format: '.exe installer', note: 'Run the installer to get started.' },
-    { name: 'macOS', key: 'mac', icon: Apple, format: '.pkg installer', note: 'Open the package and follow the installer.' },
-    { name: 'Linux', key: 'linux', icon: Laptop, format: 'AppImage', note: 'Make the AppImage executable, then launch it.' },
+    { name: 'Windows', key: 'windows', icon: WindowsIcon, format: '.exe installer', note: 'Run the installer to get started.' },
+    { name: 'macOS', key: 'mac', icon: MacIcon, format: '.pkg installer', note: 'Open the package and follow the installer.' },
+    { name: 'Linux', key: 'linux', icon: LinuxIcon, format: 'AppImage', note: 'Make the AppImage executable, then launch it.' },
 ] as const;
 
 export default function DownloadSection() {
@@ -39,7 +40,7 @@ export default function DownloadSection() {
                         <p>{platform.note}</p>
                         <a class="btn btn--primary download-action" href={release?.assets[platform.key] ?? FALLBACK} target="_blank" rel="noopener noreferrer"><Download size={17} />Download for {platform.name}<ArrowUpRight size={16} /></a>
                         <span class="download-format">{platform.format} · {release && !release.error ? release.version : 'Latest release'}</span>
-                        {platform.name === 'Linux' && <CodeBlock label="Or install on Arch Linux" command="yay -S mapwizard-git" />}
+                        {platform.name === 'Linux' && <CodeBlock label="Or install on Arch Linux" command="yay -S mapwizard-git" icon={<ArchIcon size={14} />} />}
                         {release?.error && <p class="dl__error" role="status">Downloads open the GitHub releases page while release information is unavailable.</p>}
                     </div>
                     <div class="download-source"><span>Build from source</span><a href="https://github.com/maotovisk/MapWizard" target="_blank" rel="noopener noreferrer">Get the source <ArrowUpRight size={14} /></a></div>

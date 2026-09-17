@@ -39,6 +39,8 @@ function siteFiles(): Plugin {
 export default defineConfig({
   plugins: [tailwindcss(), preact(), siteFiles()],
   base: "/", // Ensures correct asset path for GitHub Pages
+  // DISCORD_INVITE_LINK powers the /discord redirect; expose it alongside Vite's defaults.
+  envPrefix: ["VITE_", "DISCORD_"],
   resolve: {
     alias: {
       "@": resolve(__dirname, "src"),
@@ -49,6 +51,13 @@ export default defineConfig({
     minify: "terser",
     sourcemap: true,
     emptyOutDir: true,
+    rollupOptions: {
+      // The landing page plus the standalone /discord redirect endpoint.
+      input: {
+        main: resolve(__dirname, "index.html"),
+        discord: resolve(__dirname, "discord.html"),
+      },
+    },
   },
   server: {
     port: 3000,
